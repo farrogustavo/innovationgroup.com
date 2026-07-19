@@ -42,7 +42,7 @@ const timeSelect = document.querySelector("[data-time-select]");
 const bookingStatus = document.querySelector("[data-booking-status]");
 
 const companyCalendarEmail = "info@innovationgroupproject.co";
-const businessLocation = "Innovation Group Projects LLC, Lebanon, TN 37087";
+const businessLocation = "Innovation Group Projects LLC, Smyrna, TN 37167";
 const availableTimes = [
   "08:00",
   "09:00",
