@@ -1,0 +1,11 @@
+# Raw iPhone photos — not used in the site
+img/*.HEIC
+img/*.heic
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+*.code-workspace
