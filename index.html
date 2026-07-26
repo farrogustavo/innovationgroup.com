@@ -62,29 +62,36 @@
       </nav>
     </header>
 
-    <main id="home">
-      <section class="hero">
-        <div class="hero-media hero-media-carousel" data-hero-carousel aria-hidden="true">
-          <img class="hero-bg-slide is-active" src="img/hero-interior-lighting.jpg" alt="Interior lighting and premium finish work">
-          <img class="hero-bg-slide" src="img/hero-industrial-facility.jpg" alt="Industrial facility and power infrastructure">
-          <img class="hero-bg-slide" src="img/hero-commercial-coffee.jpg" alt="Commercial electrical support for retail operations">
-          <img class="hero-bg-slide" src="img/hero-modern-residence.jpg" alt="Modern residential electrical project">
-        </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <p class="eyebrow">Electrical contractor + construction project partner</p>
-          <h1>Powering projects with precision, speed, and accountability.</h1>
-          <p class="hero-copy">Innovation Group Projects LLC supports homes, commercial spaces, and construction teams with dependable electrical work, clean installations, detailed coordination, and a jobsite standard clients can trust.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#contact">Schedule a Consultation</a>
-            <a class="button button-ghost" href="#work">View Recent Work</a>
+    <main>
+      <!-- SCROLL-VIDEO HERO: video1.mp4 scrubbed by scroll -->
+      <div class="scroll-video-scene" id="home" data-scroll-video-scene="1">
+        <div class="scroll-video-sticky">
+          <video
+            class="scroll-video-el"
+            data-scroll-video="1"
+            src="video1.mp4"
+            muted
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+          ></video>
+          <div class="scroll-video-overlay"></div>
+          <div class="hero-content scroll-video-content">
+            <p class="eyebrow">Electrical contractor + construction project partner</p>
+            <h1>Powering projects with precision, speed, and accountability.</h1>
+            <p class="hero-copy">Innovation Group Projects LLC supports homes, commercial spaces, and construction teams with dependable electrical work, clean installations, detailed coordination, and a jobsite standard clients can trust.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#contact">Schedule a Consultation</a>
+              <a class="button button-ghost" href="#work">View Recent Work</a>
+            </div>
           </div>
+          <div class="hero-card">
+            <span>Serving Middle Tennessee</span>
+            <strong>Residential, commercial, and industrial electrical solutions.</strong>
+          </div>
+          <div class="scroll-video-progress" data-scroll-progress="1"><div class="scroll-video-progress-bar"></div></div>
         </div>
-        <div class="hero-card">
-          <span>Serving Middle Tennessee</span>
-          <strong>Residential, commercial, and industrial electrical solutions.</strong>
-        </div>
-      </section>
+      </div>
 
       <section class="quick-contact quick-contact--4col" aria-label="Quick contact">
         <a href="tel:6159308522"><span>Call</span>(615) 930-8522</a>
@@ -93,38 +100,28 @@
         <a href="mailto:info@innovationgroupproject.co"><span>Email</span>info@innovationgroupproject.co</a>
       </section>
 
-      <section class="home-carousel-section" id="featured-projects">
-        <div class="section-heading split">
-          <div>
+      <!-- SCROLL-VIDEO SECTION 2: video2.mp4 scrubbed by scroll -->
+      <div class="scroll-video-scene" id="featured-projects" data-scroll-video-scene="2">
+        <div class="scroll-video-sticky">
+          <video
+            class="scroll-video-el"
+            data-scroll-video="2"
+            src="video2.mp4"
+            muted
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+          ></video>
+          <div class="scroll-video-overlay scroll-video-overlay--subtle"></div>
+          <div class="scroll-video-content scroll-video-content--bottom">
             <p class="eyebrow">Featured Projects</p>
             <h2>Residential, commercial, and industrial work with a polished finish.</h2>
+            <p style="color:#dfe6ed;font-size:clamp(16px,1.8vw,20px);max-width:600px;">Real project imagery captured in the field — a living record of our precision, speed, and accountability on every jobsite.</p>
+            <a class="button button-primary" href="#work" style="margin-top:12px;">View Our Work</a>
           </div>
-          <p>Recent project imagery presented with a premium carousel experience for quick scanning and strong first impressions.</p>
+          <div class="scroll-video-progress" data-scroll-progress="2"><div class="scroll-video-progress-bar"></div></div>
         </div>
-        <div class="home-carousel" data-home-carousel>
-          <div class="home-carousel-track">
-            <article class="home-carousel-slide is-active">
-              <img src="img/home-modern-residence.jpg" alt="Modern residential electrical project exterior">
-              <div class="home-slide-caption"><span>Residential</span><strong>Modern home systems and exterior-ready infrastructure.</strong></div>
-            </article>
-            <article class="home-carousel-slide">
-              <img src="img/home-commercial-cafe.jpg" alt="Commercial cafe electrical project exterior">
-              <div class="home-slide-caption"><span>Commercial</span><strong>Clean power delivery for active business environments.</strong></div>
-            </article>
-            <article class="home-carousel-slide">
-              <img src="img/home-industrial-site.jpg" alt="Industrial facility project exterior">
-              <div class="home-slide-caption"><span>Industrial</span><strong>Large-scale jobsite support with dependable execution.</strong></div>
-            </article>
-            <article class="home-carousel-slide">
-              <img src="img/home-interior-lighting.jpg" alt="Interior lighting and staircase project">
-              <div class="home-slide-caption"><span>Interior Finish</span><strong>Lighting details that elevate the final walkthrough.</strong></div>
-            </article>
-          </div>
-          <button class="home-carousel-btn home-carousel-prev" type="button" aria-label="Previous project"><svg class="carousel-arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.7 5.3 9 12l6.7 6.7-1.9 1.9L5.2 12l8.6-8.6 1.9 1.9Z"/></svg></button>
-          <button class="home-carousel-btn home-carousel-next" type="button" aria-label="Next project"><svg class="carousel-arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8.3 18.7 6.7-6.7-6.7-6.7 1.9-1.9 8.6 8.6-8.6 8.6-1.9-1.9Z"/></svg></button>
-          <div class="home-carousel-dots" aria-label="Project carousel navigation"></div>
-        </div>
-      </section>
+      </div>
 
       <section class="field-video-section">
         <div class="field-video-copy">

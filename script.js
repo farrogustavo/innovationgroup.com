@@ -336,3 +336,91 @@ if (heroCarousel) {
     heroSlides[heroIndex].classList.add("is-active");
   }, 5200);
 }
+
+
+/* ══════════════════════════════════════════════════════
+   SCROLL-ORCHESTRATED VIDEO SCRUBBER
+   Maps scroll progress through each .scroll-video-scene
+   to video.currentTime — no autoplay, pure scroll control.
+   ══════════════════════════════════════════════════════ */
+(function initScrollVideos() {
+  const scenes = document.querySelectorAll("[data-scroll-video-scene]");
+  if (!scenes.length) return;
+
+  /** Each entry: { scene, video, progressBar, ready } */
+  const entries = [];
+
+  scenes.forEach((scene) => {
+    const id = scene.dataset.scrollVideoScene;
+    const video = scene.querySelector(`[data-scroll-video="${id}"]`);
+    const progressWrap = scene.querySelector(`[data-scroll-progress="${id}"]`);
+    const progressBar = progressWrap
+      ? progressWrap.querySelector(".scroll-video-progress-bar")
+      : null;
+
+    if (!video) return;
+
+    // Pause any autoplay and reset to frame 0
+    video.pause();
+    video.currentTime = 0;
+
+    // Mark ready once metadata is loaded
+    let ready = false;
+    const markReady = () => { ready = true; };
+    video.addEventListener("loadedmetadata", markReady, { once: true });
+    video.addEventListener("canplay", markReady, { once: true });
+    // If already loaded (cached)
+    if (video.readyState >= 2) markReady();
+
+    entries.push({ scene, video, progressBar, ready: () => ready });
+  });
+
+  // RAF-based scroll scrubber — runs only when page is scrolling
+  let rafId = null;
+  let lastScrollY = -1;
+
+  const scrub = () => {
+    rafId = null;
+    const scrollY = window.scrollY;
+    if (scrollY === lastScrollY) return; // nothing changed
+    lastScrollY = scrollY;
+
+    entries.forEach(({ scene, video, progressBar, ready }) => {
+      if (!ready()) return;
+
+      const rect = scene.getBoundingClientRect();
+      const sceneTop = scrollY + rect.top;
+      // Total scrollable distance = scene height minus one viewport
+      const scrollRange = scene.offsetHeight - window.innerHeight;
+      if (scrollRange <= 0) return;
+
+      // How far have we scrolled INTO this scene? (0 → scrollRange)
+      const scrolled = Math.max(0, Math.min(scrollRange, scrollY - sceneTop));
+      const progress = scrolled / scrollRange; // 0 → 1
+
+      // Map progress to video time
+      const duration = video.duration;
+      if (!isFinite(duration) || duration <= 0) return;
+
+      const targetTime = progress * duration;
+      // Only seek if meaningfully different (avoids unnecessary seeks)
+      if (Math.abs(video.currentTime - targetTime) > 0.015) {
+        video.currentTime = targetTime;
+      }
+
+      // Update orange progress bar
+      if (progressBar) {
+        progressBar.style.width = (progress * 100).toFixed(2) + "%";
+      }
+    });
+  };
+
+  const onScroll = () => {
+    if (!rafId) rafId = requestAnimationFrame(scrub);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Run once on load to paint first frame immediately
+  scrub();
+})();

@@ -2253,3 +2253,132 @@ html, body {
     min-width: 44px;
   }
 }
+
+/* ══════════════════════════════════════════════════════
+   SCROLL-ORCHESTRATED VIDEO SECTIONS
+   video plays frame-by-frame as the user scrolls
+   ══════════════════════════════════════════════════════ */
+
+/* Outer scene wrapper — tall enough to give scroll room.
+   300vh = 1 viewport pinned + 2 viewports of scroll travel */
+.scroll-video-scene {
+  position: relative;
+  height: 300vh;
+}
+
+/* Sticky container that pins to viewport during scroll */
+.scroll-video-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Video fills the sticky frame at full native resolution */
+.scroll-video-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* no letterboxing / pillarboxing */
+  object-position: center center;
+  display: block;
+  /* GPU-accelerate compositing for smooth playback */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Dark gradient overlay for hero (Video 1) */
+.scroll-video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5,8,12,0.88) 0%, rgba(5,8,12,0.55) 50%, rgba(5,8,12,0.22) 100%),
+    linear-gradient(0deg, rgba(5,8,12,0.72) 0%, rgba(5,8,12,0.06) 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle overlay for section 2 (Video 2) */
+.scroll-video-overlay--subtle {
+  background:
+    linear-gradient(0deg, rgba(5,8,12,0.82) 0%, rgba(5,8,12,0.28) 40%, rgba(5,8,12,0.14) 100%);
+}
+
+/* Content layer */
+.scroll-video-content {
+  position: absolute;
+  z-index: 2;
+  /* Default: left-aligned hero position */
+  bottom: 10vh;
+  left: clamp(18px, 5vw, 72px);
+  width: min(780px, 100% - clamp(36px, 10vw, 144px));
+  color: var(--white);
+  /* Fade-in on first paint */
+  animation: svFadeIn 1s ease 0.3s both;
+}
+
+/* Bottom-aligned variant for section 2 */
+.scroll-video-content--bottom {
+  bottom: 8vh;
+  left: clamp(18px, 5vw, 72px);
+}
+
+@keyframes svFadeIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* hero-card stays inside sticky container */
+.scroll-video-sticky .hero-card {
+  position: absolute;
+  right: clamp(18px, 5vw, 72px);
+  bottom: 52px;
+  z-index: 3;
+  width: min(360px, calc(100% - 36px));
+  padding: 24px;
+  border-left: 5px solid var(--orange);
+  background: rgba(12, 17, 24, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  color: var(--white);
+}
+
+/* Thin scroll-progress bar at bottom of sticky */
+.scroll-video-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+  z-index: 4;
+}
+
+.scroll-video-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--orange);
+  transition: width 0.05s linear;
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 700px) {
+  .scroll-video-scene {
+    /* Slightly taller on mobile for better scrub room */
+    height: 350vh;
+  }
+
+  .scroll-video-content {
+    bottom: 12vh;
+    width: calc(100% - 36px);
+  }
+
+  .scroll-video-sticky .hero-card {
+    display: none; /* hide card on small screens */
+  }
+}
+
