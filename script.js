@@ -5,7 +5,6 @@ const navLinks = document.querySelector("[data-nav-links]");
 const syncHeader = () => {
   header.classList.toggle("is-scrolled", window.scrollY > 20);
 };
-
 syncHeader();
 window.addEventListener("scroll", syncHeader, { passive: true });
 
@@ -21,537 +20,303 @@ navLinks.querySelectorAll("a").forEach((link) => {
   });
 });
 
-const reveals = document.querySelectorAll(".reveal");
-
-const observer = new IntersectionObserver(
+/* ─── Reveal on scroll ──────────────────────────────────────── */
+const revealObs = new IntersectionObserver(
   (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("is-visible");
+        revealObs.unobserve(e.target);
       }
     });
   },
   { threshold: 0.16 }
 );
+document.querySelectorAll(".reveal").forEach((el) => revealObs.observe(el));
 
-reveals.forEach((item) => observer.observe(item));
-
-const bookingForm = document.querySelector("[data-booking-form]");
-const timeSelect = document.querySelector("[data-time-select]");
+/* ─── Booking form ──────────────────────────────────────────── */
+const bookingForm   = document.querySelector("[data-booking-form]");
+const timeSelect    = document.querySelector("[data-time-select]");
 const bookingStatus = document.querySelector("[data-booking-status]");
 
 const companyCalendarEmail = "info@innovationgroupproject.co";
-const businessLocation = "Innovation Group Projects LLC, Smyrna, TN 37167";
-const availableTimes = [
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00"
-];
+const businessLocation     = "Innovation Group Projects LLC, Smyrna, TN 37167";
+const availableTimes = ["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00"];
+const blockedWeeklySlots = { 2: ["10:00"], 4: ["14:00"] };
+const blockedDateSlots   = new Set(["2026-05-18T09:00","2026-05-20T13:00"]);
 
-const blockedWeeklySlots = {
-  2: ["10:00"],
-  4: ["14:00"]
+const formatTimeLabel = (t) => {
+  const [h, m] = t.split(":").map(Number);
+  return new Date(2000,0,1,h,m).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
 };
 
-const blockedDateSlots = new Set([
-  "2026-05-18T09:00",
-  "2026-05-20T13:00"
-]);
-
-const formatTimeLabel = (time) => {
-  const [hour, minute] = time.split(":").map(Number);
-  return new Date(2000, 0, 1, hour, minute).toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit"
-  });
-};
-
-const parseLocalDate = (dateValue, timeValue = "00:00") => {
-  const [year, month, day] = dateValue.split("-").map(Number);
-  const [hour, minute] = timeValue.split(":").map(Number);
-  return new Date(year, month - 1, day, hour, minute);
+const parseLocalDate = (d, t = "00:00") => {
+  const [Y,M,D] = d.split("-").map(Number);
+  const [h,m]   = t.split(":").map(Number);
+  return new Date(Y, M-1, D, h, m);
 };
 
 const toGoogleDate = (date) => {
-  const pad = (value) => String(value).padStart(2, "0");
-  return [
-    date.getFullYear(),
-    pad(date.getMonth() + 1),
-    pad(date.getDate()),
-    "T",
-    pad(date.getHours()),
-    pad(date.getMinutes()),
-    "00"
-  ].join("");
+  const p = (n) => String(n).padStart(2,"0");
+  return `${date.getFullYear()}${p(date.getMonth()+1)}${p(date.getDate())}T${p(date.getHours())}${p(date.getMinutes())}00`;
 };
 
-const setBookingStatus = (message, type = "") => {
+const setBookingStatus = (msg, type="") => {
   bookingStatus.className = `booking-status${type ? ` is-${type}` : ""}`;
-  bookingStatus.textContent = message;
+  bookingStatus.textContent = msg;
 };
 
-const setCalendarSuccess = (calendarUrl) => {
-  bookingStatus.className = "booking-status is-success";
-  bookingStatus.textContent = "This appointment is available. ";
-  const link = document.createElement("a");
-  link.href = calendarUrl;
-  link.target = "_blank";
-  link.rel = "noopener";
-  link.textContent = "Open Google Calendar to save the reservation.";
-  bookingStatus.append(link);
-};
-
-const getAvailabilityIssue = (dateValue, timeValue) => {
-  if (!dateValue || !timeValue) {
-    return "Please select both a date and a time.";
-  }
-
-  const selectedDate = parseLocalDate(dateValue, timeValue);
-  const now = new Date();
-  const weekday = selectedDate.getDay();
-  const slotKey = `${dateValue}T${timeValue}`;
-
-  if (selectedDate < now) {
-    return "We are sorry, that date or time is no longer available. Please enter a new date.";
-  }
-
-  if (weekday === 0 || weekday === 6) {
-    return "We are sorry, weekend appointments are not available. Please enter a new weekday date.";
-  }
-
-  if (blockedDateSlots.has(slotKey) || blockedWeeklySlots[weekday]?.includes(timeValue)) {
+const getAvailabilityIssue = (dateVal, timeVal) => {
+  if (!dateVal || !timeVal) return "Please select both a date and a time.";
+  const sel     = parseLocalDate(dateVal, timeVal);
+  const weekday = sel.getDay();
+  const slotKey = `${dateVal}T${timeVal}`;
+  if (sel < new Date()) return "We are sorry, that date or time is no longer available. Please enter a new date.";
+  if (weekday === 0 || weekday === 6) return "We are sorry, weekend appointments are not available. Please enter a new weekday date.";
+  if (blockedDateSlots.has(slotKey) || blockedWeeklySlots[weekday]?.includes(timeVal))
     return "We are sorry, that day and time are not available. Please enter a new date or choose another time.";
-  }
-
   return "";
 };
 
-const buildCalendarUrl = (formData) => {
-  const startDate = parseLocalDate(formData.get("date"), formData.get("time"));
-  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
-  const service = formData.get("service");
-  const name = formData.get("name");
-  const phone = formData.get("phone");
-  const email = formData.get("email");
-  const note = formData.get("message") || "No project note provided.";
-  const details = [
-    `Client: ${name}`,
-    `Phone: ${phone}`,
-    `Email: ${email}`,
-    `Service: ${service}`,
-    "",
-    `Project note: ${note}`,
-    "",
-    "Please confirm the appointment directly with the client."
-  ].join("\n");
-
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `Consultation - Innovation Group Projects LLC - ${service}`,
-    dates: `${toGoogleDate(startDate)}/${toGoogleDate(endDate)}`,
-    details,
-    location: businessLocation,
-    add: companyCalendarEmail,
-    ctz: "America/Chicago"
-  });
-
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-};
-
 if (timeSelect) {
-  availableTimes.forEach((time) => {
-    const option = document.createElement("option");
-    option.value = time;
-    option.textContent = formatTimeLabel(time);
-    timeSelect.append(option);
+  availableTimes.forEach((t) => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = formatTimeLabel(t);
+    timeSelect.append(opt);
   });
 }
 
 if (bookingForm) {
   const dateInput = bookingForm.querySelector('input[name="date"]');
-  const today = new Date();
-  dateInput.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const today     = new Date();
+  dateInput.min   = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
   setBookingStatus("Appointments are available Monday through Friday during business hours.");
 
-  bookingForm.addEventListener("submit", (event) => {
-    const formData = new FormData(bookingForm);
-    const issue = getAvailabilityIssue(formData.get("date"), formData.get("time"));
-
-    if (issue) {
-      event.preventDefault();
-      setBookingStatus(issue, "error");
-      return;
-    }
-
+  bookingForm.addEventListener("submit", (ev) => {
+    const fd    = new FormData(bookingForm);
+    const issue = getAvailabilityIssue(fd.get("date"), fd.get("time"));
+    if (issue) { ev.preventDefault(); setBookingStatus(issue,"error"); return; }
     setBookingStatus("Sending your request...", "success");
   });
 }
 
-const mapCard = document.querySelector("[data-map-card]");
+const mapCard  = document.querySelector("[data-map-card]");
 const mapFrame = document.querySelector("[data-map-frame]");
+if (mapCard && mapFrame) mapFrame.addEventListener("load", () => mapCard.classList.add("is-loaded"));
 
-if (mapCard && mapFrame) {
-  mapFrame.addEventListener("load", () => {
-    mapCard.classList.add("is-loaded");
-  });
-}
-
-
+/* ─── Home carousel ─────────────────────────────────────────── */
 const homeCarousel = document.querySelector("[data-home-carousel]");
-
 if (homeCarousel) {
-  const track = homeCarousel.querySelector(".home-carousel-track");
-  const slides = Array.from(homeCarousel.querySelectorAll(".home-carousel-slide"));
-  const prev = homeCarousel.querySelector(".home-carousel-prev");
-  const next = homeCarousel.querySelector(".home-carousel-next");
+  const track    = homeCarousel.querySelector(".home-carousel-track");
+  const slides   = Array.from(homeCarousel.querySelectorAll(".home-carousel-slide"));
+  const prev     = homeCarousel.querySelector(".home-carousel-prev");
+  const next     = homeCarousel.querySelector(".home-carousel-next");
   const dotsWrap = homeCarousel.querySelector(".home-carousel-dots");
-  let currentSlide = 0;
-  let homeTimer = null;
+  let cur = 0, homeTimer = null;
 
-  slides.forEach((_, index) => {
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "home-carousel-dot" + (index === 0 ? " is-active" : "");
-    dot.setAttribute("aria-label", "Go to project " + (index + 1));
-    dot.addEventListener("click", () => {
-      goHomeSlide(index);
-      restartHomeCarousel();
-    });
-    dotsWrap.append(dot);
+  slides.forEach((_, i) => {
+    const d = document.createElement("button");
+    d.type = "button";
+    d.className = "home-carousel-dot" + (i===0?" is-active":"");
+    d.setAttribute("aria-label","Go to project "+(i+1));
+    d.addEventListener("click",()=>{ goHome(i); restartHome(); });
+    dotsWrap.append(d);
   });
 
-  const syncHomeCarousel = () => {
-    track.style.transform = "translateX(-" + currentSlide * 100 + "%)";
-    dotsWrap.querySelectorAll(".home-carousel-dot").forEach((dot, index) => {
-      dot.classList.toggle("is-active", index === currentSlide);
-    });
+  const syncHome = () => {
+    track.style.transform = `translateX(-${cur*100}%)`;
+    dotsWrap.querySelectorAll(".home-carousel-dot").forEach((d,i) => d.classList.toggle("is-active",i===cur));
   };
+  const goHome = (i) => { cur = (i+slides.length)%slides.length; syncHome(); };
+  const startHome  = () => { homeTimer = setInterval(()=>goHome(cur+1),5000); };
+  const restartHome = () => { clearInterval(homeTimer); startHome(); };
 
-  const goHomeSlide = (index) => {
-    currentSlide = (index + slides.length) % slides.length;
-    syncHomeCarousel();
-  };
-
-  const startHomeCarousel = () => {
-    homeTimer = setInterval(() => goHomeSlide(currentSlide + 1), 5000);
-  };
-
-  const restartHomeCarousel = () => {
-    clearInterval(homeTimer);
-    startHomeCarousel();
-  };
-
-  prev.addEventListener("click", () => {
-    goHomeSlide(currentSlide - 1);
-    restartHomeCarousel();
-  });
-
-  next.addEventListener("click", () => {
-    goHomeSlide(currentSlide + 1);
-    restartHomeCarousel();
-  });
-
-  homeCarousel.addEventListener("mouseenter", () => clearInterval(homeTimer));
-  homeCarousel.addEventListener("mouseleave", startHomeCarousel);
-  startHomeCarousel();
+  prev.addEventListener("click",()=>{ goHome(cur-1); restartHome(); });
+  next.addEventListener("click",()=>{ goHome(cur+1); restartHome(); });
+  homeCarousel.addEventListener("mouseenter",()=>clearInterval(homeTimer));
+  homeCarousel.addEventListener("mouseleave",startHome);
+  startHome();
 }
 
-
+/* ─── Cinematic carousels ───────────────────────────────────── */
 document.querySelectorAll("[data-cinematic-carousel]").forEach((carousel) => {
-  const track = carousel.querySelector(".cinematic-track");
-  const slides = Array.from(carousel.querySelectorAll(".cinematic-slide"));
-  const prev = carousel.querySelector(".cinematic-prev");
-  const next = carousel.querySelector(".cinematic-next");
+  const track    = carousel.querySelector(".cinematic-track");
+  const slides   = Array.from(carousel.querySelectorAll(".cinematic-slide"));
+  const prev     = carousel.querySelector(".cinematic-prev");
+  const next     = carousel.querySelector(".cinematic-next");
   const dotsWrap = carousel.querySelector(".cinematic-dots");
-  const currentLabel = carousel.querySelector("[data-current]");
-  let current = 0;
-  let timer = null;
+  const curLabel = carousel.querySelector("[data-current]");
+  let cur = 0, timer = null;
 
-  slides.forEach((_, index) => {
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "cinematic-dot" + (index === 0 ? " is-active" : "");
-    dot.setAttribute("aria-label", "Go to slide " + (index + 1));
-    dot.addEventListener("click", () => {
-      goToCinematic(index);
-      restartCinematic();
-    });
-    dotsWrap.append(dot);
+  slides.forEach((_,i) => {
+    const d = document.createElement("button");
+    d.type = "button";
+    d.className = "cinematic-dot"+(i===0?" is-active":"");
+    d.setAttribute("aria-label","Go to slide "+(i+1));
+    d.addEventListener("click",()=>{ goTo(i); restart(); });
+    dotsWrap.append(d);
   });
 
   const sync = () => {
-    track.style.transform = "translateX(-" + current * 100 + "%)";
-    dotsWrap.querySelectorAll(".cinematic-dot").forEach((dot, index) => {
-      dot.classList.toggle("is-active", index === current);
-    });
-    if (currentLabel) currentLabel.textContent = String(current + 1).padStart(2, "0");
+    track.style.transform = `translateX(-${cur*100}%)`;
+    dotsWrap.querySelectorAll(".cinematic-dot").forEach((d,i)=>d.classList.toggle("is-active",i===cur));
+    if (curLabel) curLabel.textContent = String(cur+1).padStart(2,"0");
   };
+  const goTo    = (i) => { cur=(i+slides.length)%slides.length; sync(); };
+  const start   = ()  => { timer=setInterval(()=>goTo(cur+1),5200); };
+  const restart = ()  => { clearInterval(timer); start(); };
 
-  const goToCinematic = (index) => {
-    current = (index + slides.length) % slides.length;
-    sync();
-  };
-
-  const start = () => {
-    timer = setInterval(() => goToCinematic(current + 1), 5200);
-  };
-
-  const restartCinematic = () => {
-    clearInterval(timer);
-    start();
-  };
-
-  prev.addEventListener("click", () => {
-    goToCinematic(current - 1);
-    restartCinematic();
-  });
-
-  next.addEventListener("click", () => {
-    goToCinematic(current + 1);
-    restartCinematic();
-  });
-
-  carousel.addEventListener("mouseenter", () => clearInterval(timer));
-  carousel.addEventListener("mouseleave", start);
+  prev.addEventListener("click",()=>{ goTo(cur-1); restart(); });
+  next.addEventListener("click",()=>{ goTo(cur+1); restart(); });
+  carousel.addEventListener("mouseenter",()=>clearInterval(timer));
+  carousel.addEventListener("mouseleave",start);
   start();
 });
 
-
+/* ─── Hero image carousel (fallback) ───────────────────────── */
 const heroCarousel = document.querySelector("[data-hero-carousel]");
-
 if (heroCarousel) {
   const heroSlides = Array.from(heroCarousel.querySelectorAll(".hero-bg-slide"));
   let heroIndex = 0;
-
-  setInterval(() => {
+  setInterval(()=>{
     heroSlides[heroIndex].classList.remove("is-active");
-    heroIndex = (heroIndex + 1) % heroSlides.length;
+    heroIndex=(heroIndex+1)%heroSlides.length;
     heroSlides[heroIndex].classList.add("is-active");
-  }, 5200);
+  },5200);
 }
 
 
-/* ══════════════════════════════════════════════════════
-   SCROLL-LOCK VIDEO SCRUBBER
-   ─────────────────────────────────────────────────────
-   When a video section enters the viewport:
-     1. Scroll is captured (wheel / touch / keyboard).
-     2. Accumulated delta maps directly to video.currentTime.
-     3. When progress reaches 100% the lock releases and
-        the page scrolls naturally to the next section.
-   ══════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   SCROLL-SCRUBBED VIDEO
+   ─────────────────────────────────────────────────────────
+   Each .scroll-video-scene is 300 vh tall.
+   The inner .scroll-video-sticky is position:sticky so it
+   stays in view while the user scrolls through the scene.
+   scroll progress (0→1) maps directly to video.currentTime.
+   Scrolling back rewinds the video — fully bidirectional.
+   ════════════════════════════════════════════════════════════ */
 (function initScrollVideos() {
+
   const scenes = document.querySelectorAll("[data-scroll-video-scene]");
   if (!scenes.length) return;
 
-  /* Total pixels of scroll delta needed to play the full video.
-     Tune this number for desired scrub "weight". */
-  const SCROLL_PIXELS = 2400;
-
-  /* ── Build entry list ─────────────────────────────── */
+  /* ── Build entry list ─────────────────────────────────── */
   const entries = [];
 
   scenes.forEach((scene) => {
-    const id = scene.dataset.scrollVideoScene;
-    const video = scene.querySelector(`[data-scroll-video="${id}"]`);
+    const id          = scene.dataset.scrollVideoScene;
+    const video       = scene.querySelector(`[data-scroll-video="${id}"]`);
     const progressBar = scene.querySelector(".scroll-video-progress-bar");
-    const hint = scene.querySelector(`[data-scroll-hint="${id}"]`);
+    const hint        = scene.querySelector(`[data-scroll-hint="${id}"]`);
 
     if (!video) return;
 
+    /* ── Unlock seeking ──────────────────────────────────
+       Browsers require a play() call before seeking works.
+       We play silently for a frame then pause.             */
     let seekable = false;
 
-    /* Unlock: silent play → pause to prime the buffer so
-       seeking works without triggering autoplay policy.    */
     const unlock = () => {
-      video.muted = true;
+      video.muted       = true;
       video.playsInline = true;
       const p = video.play();
-      if (p && p.then) {
-        p.then(() => {
-          video.pause();
-          video.currentTime = 0;
-          seekable = true;
-        }).catch(() => {
-          seekable = true; // try seeking anyway
-        });
-      } else {
+      const finish = () => {
         video.pause();
+        video.currentTime = 0;
         seekable = true;
+        // Run scrub immediately so first frame shows
+        scrubScene(entry);
+      };
+      if (p && p.then) {
+        p.then(finish).catch(() => { seekable = true; scrubScene(entry); });
+      } else {
+        finish();
       }
     };
+
+    const entry = { scene, video, progressBar, hint, isSeekable: () => seekable };
+    entries.push(entry);
 
     if (video.readyState >= 3) {
       unlock();
     } else {
       video.addEventListener("canplay", unlock, { once: true });
     }
-
-    entries.push({
-      scene,
-      video,
-      progressBar,
-      hint,
-      isSeekable: () => seekable,
-      done: false,
-      accumulated: 0   // px of scroll delta consumed
-    });
   });
 
-  /* ── State ────────────────────────────────────────── */
-  let active = null;      // currently locked entry
-  let isLocked = false;
-  let savedScrollY = 0;
-  let touchStartY = 0;
+  /* ── Scrub a single scene based on current scroll ─────── */
+  function scrubScene({ scene, video, progressBar, hint, isSeekable }) {
+    if (!isSeekable())                      return;
+    if (!isFinite(video.duration) || video.duration <= 0) return;
 
-  /* ── Intersection observer: activate when scene fully
-     enters the viewport (threshold 0.85)               */
-  const io = new IntersectionObserver((ioEntries) => {
-    ioEntries.forEach((ioEntry) => {
-      const entry = entries.find(e => e.scene === ioEntry.target);
-      if (!entry || entry.done) return;
+    const rect        = scene.getBoundingClientRect();
+    const sceneTop    = window.scrollY + rect.top;
+    const scrollRange = scene.offsetHeight - window.innerHeight;
+    if (scrollRange <= 0)                   return;
 
-      if (ioEntry.isIntersecting && !active) {
-        activateEntry(entry);
-      } else if (!ioEntry.isIntersecting && active === entry) {
-        /* User scrolled away (e.g. back-scroll past the section) */
-        releaseScroll(false);
-      }
-    });
-  }, { threshold: 0.85 });
+    const scrolled  = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
+    const progress  = scrolled / scrollRange;               // 0 → 1
+    const target    = progress * video.duration;
 
-  entries.forEach(e => io.observe(e.scene));
-
-  /* ── Activate: lock the page on this entry ─────────── */
-  function activateEntry(entry) {
-    active = entry;
-    savedScrollY = window.scrollY;
-
-    /* Restore accumulated from current video position
-       (handles re-entering a partially watched scene)   */
-    entry.accumulated = (entry.video.currentTime / (entry.video.duration || 1)) * SCROLL_PIXELS;
-
-    lockScroll();
-  }
-
-  /* ── Lock body scroll ────────────────────────────── */
-  function lockScroll() {
-    if (isLocked) return;
-    isLocked = true;
-    /* position:fixed trick to suppress native scroll
-       while preserving visual position               */
-    document.body.style.overflow  = "hidden";
-    document.body.style.position  = "fixed";
-    document.body.style.top       = `-${savedScrollY}px`;
-    document.body.style.width     = "100%";
-
-    window.addEventListener("wheel",      onWheel,      { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true  });
-    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
-    window.addEventListener("keydown",    onKey,        { passive: false });
-  }
-
-  /* ── Release: unlock body, optionally advance page ─ */
-  function releaseScroll(finished) {
-    if (!isLocked) return;
-    const entry = active;
-    active = null;
-    isLocked = false;
-
-    /* Restore scroll position */
-    const top = Math.abs(parseInt(document.body.style.top || "0", 10));
-    document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.top      = "";
-    document.body.style.width    = "";
-    window.scrollTo(0, top);
-
-    window.removeEventListener("wheel",      onWheel);
-    window.removeEventListener("touchstart", onTouchStart);
-    window.removeEventListener("touchmove",  onTouchMove);
-    window.removeEventListener("keydown",    onKey);
-
-    if (finished && entry) {
-      entry.done = true;
-      entry.scene.classList.add("is-done");
-
-      /* Hide the hint */
-      if (entry.hint) entry.hint.style.opacity = "0";
-
-      /* Scroll to the section just below the video */
-      const sceneBottom = entry.scene.getBoundingClientRect().bottom + window.scrollY;
-      setTimeout(() => {
-        window.scrollTo({ top: sceneBottom, behavior: "smooth" });
-      }, 80);
+    if (Math.abs(video.currentTime - target) > 0.016) {
+      video.currentTime = target;
     }
-  }
-
-  /* ── Delta handler: advance or rewind video ──────── */
-  function applyDelta(delta) {
-    if (!active || !active.isSeekable()) return;
-
-    const { video, progressBar, hint } = active;
-    const duration = video.duration;
-    if (!isFinite(duration) || duration <= 0) return;
-
-    active.accumulated = Math.max(0, Math.min(SCROLL_PIXELS, active.accumulated + delta));
-    const progress = active.accumulated / SCROLL_PIXELS;
-    const target   = progress * duration;
-
-    video.currentTime = Math.min(duration, target);
 
     if (progressBar) {
       progressBar.style.width = (progress * 100).toFixed(2) + "%";
     }
 
-    /* Fade hint out once user starts scrolling */
-    if (hint && progress > 0.02) {
+    /* Fade hint after first 3 % of video */
+    if (hint && progress > 0.03) {
       hint.style.opacity = "0";
-    }
-
-    /* Video finished → release scroll */
-    if (progress >= 1) {
-      video.currentTime = duration;
-      releaseScroll(true);
+    } else if (hint && progress <= 0.01) {
+      hint.style.opacity = "1";
     }
   }
 
-  /* ── Event listeners ─────────────────────────────── */
-  function onWheel(e) {
-    e.preventDefault();
-    applyDelta(e.deltaY);
-  }
+  /* ── IntersectionObserver — only scrub when in view ──── */
+  const visible = new Set();
 
-  function onTouchStart(e) {
-    touchStartY = e.touches[0].clientY;
-  }
+  const io = new IntersectionObserver(
+    (ioEntries) => {
+      ioEntries.forEach((e) => {
+        if (e.isIntersecting) {
+          visible.add(e.target);
+        } else {
+          visible.delete(e.target);
+        }
+      });
+    },
+    { threshold: 0 }
+  );
 
-  function onTouchMove(e) {
-    e.preventDefault();
-    const dy = touchStartY - e.touches[0].clientY;
-    touchStartY = e.touches[0].clientY;
-    applyDelta(dy * 2.5);  // amplify for comfortable touch scrubbing
-  }
+  entries.forEach(({ scene }) => io.observe(scene));
 
-  function onKey(e) {
-    const map = {
-      ArrowDown: 60,
-      ArrowRight: 60,
-      ArrowUp: -60,
-      ArrowLeft: -60,
-      PageDown: 400,
-      PageUp: -400,
-      " ": 200
-    };
-    if (map[e.key] !== undefined) {
-      e.preventDefault();
-      applyDelta(map[e.key]);
-    }
-  }
+  /* ── RAF scroll loop ──────────────────────────────────── */
+  let rafId     = null;
+  let lastScrollY = -1;
+
+  const onTick = () => {
+    rafId = null;
+    const scrollY = window.scrollY;
+    if (scrollY === lastScrollY) return;
+    lastScrollY = scrollY;
+
+    entries.forEach((entry) => {
+      if (visible.has(entry.scene)) {
+        scrubScene(entry);
+      }
+    });
+  };
+
+  const onScroll = () => {
+    if (!rafId) rafId = requestAnimationFrame(onTick);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* Initial paint */
+  requestAnimationFrame(onTick);
+
 })();

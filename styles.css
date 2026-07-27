@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --ink: #0c1118;
   --navy: #111923;
   --steel: #dbe3ea;
@@ -930,9 +930,9 @@ h3 {
   }
 }
 
-/* ─────────────────────────────────────────────
-   FONT OVERRIDE — Inter + Outfit
-───────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   FONT OVERRIDE â€” Inter + Outfit
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
@@ -941,9 +941,9 @@ h1, h2, h3, h4 {
   font-family: 'Outfit', Arial, Helvetica, sans-serif;
 }
 
-/* ─────────────────────────────────────────────
-   ABOUT US SECTION — INDEX PAGE
-───────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   ABOUT US SECTION â€” INDEX PAGE
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .about-us-section {
   background: var(--navy);
   color: var(--white);
@@ -1697,9 +1697,9 @@ h1, h2, h3, h4 {
   }
 }
 
-/* ─────────────────────────────────────────────
-   QUICK CONTACT — 4 columns
-───────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   QUICK CONTACT â€” 4 columns
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .quick-contact--4col {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -1716,11 +1716,11 @@ h1, h2, h3, h4 {
   }
 }
 
-/* ─────────────────────────────────────────────
-   BRAND LOGO GRID — Associations & Certificates
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   BRAND LOGO GRID â€” Associations & Certificates
    All cards are identical size, image is
    contained (never cropped) inside the card.
-───────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .associations-section,
 .certificates-section {
   padding: clamp(56px, 7vw, 96px) clamp(18px, 5vw, 72px);
@@ -1814,18 +1814,18 @@ h1, h2, h3, h4 {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   COMPREHENSIVE MOBILE RESPONSIVE — Production Polish
-   Target: identical visual quality on 320px–1440px+ screens
-═══════════════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   COMPREHENSIVE MOBILE RESPONSIVE â€” Production Polish
+   Target: identical visual quality on 320pxâ€“1440px+ screens
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── Prevent horizontal overflow globally ── */
+/* â”€â”€ Prevent horizontal overflow globally â”€â”€ */
 html, body {
   overflow-x: hidden;
   width: 100%;
 }
 
-/* ── Quick contact: 3-col on tablet, 2-col on mobile ── */
+/* â”€â”€ Quick contact: 3-col on tablet, 2-col on mobile â”€â”€ */
 @media (max-width: 760px) {
   .quick-contact--4col {
     grid-template-columns: repeat(2, 1fr);
@@ -1846,14 +1846,14 @@ html, body {
   }
 }
 
-/* ── Topline: hide on very small screens ── */
+/* â”€â”€ Topline: hide on very small screens â”€â”€ */
 @media (max-width: 480px) {
   .topline {
     display: none;
   }
 }
 
-/* ── Nav logo sizing ── */
+/* â”€â”€ Nav logo sizing â”€â”€ */
 @media (max-width: 400px) {
   .brand img {
     max-width: 120px;
@@ -1861,7 +1861,7 @@ html, body {
   }
 }
 
-/* ── Hero: proper stacking on mobile ── */
+/* â”€â”€ Hero: proper stacking on mobile â”€â”€ */
 @media (max-width: 760px) {
   .hero {
     min-height: 100svh;
@@ -1898,7 +1898,7 @@ html, body {
   }
 }
 
-/* ── Section padding tighter on mobile ── */
+/* â”€â”€ Section padding tighter on mobile â”€â”€ */
 @media (max-width: 600px) {
   .section {
     padding: 56px 20px;
@@ -1920,7 +1920,7 @@ html, body {
   }
 }
 
-/* ── Intro grid: stack on mobile ── */
+/* â”€â”€ Intro grid: stack on mobile â”€â”€ */
 @media (max-width: 760px) {
   .intro-grid {
     grid-template-columns: 1fr;
@@ -1928,7 +1928,7 @@ html, body {
   }
 }
 
-/* ── Section heading split: always stack ── */
+/* â”€â”€ Section heading split: always stack â”€â”€ */
 @media (max-width: 900px) {
   .section-heading.split {
     grid-template-columns: 1fr;
@@ -1936,7 +1936,7 @@ html, body {
   }
 }
 
-/* ── Services grid ── */
+/* â”€â”€ Services grid â”€â”€ */
 @media (max-width: 760px) {
   .service-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1953,7 +1953,7 @@ html, body {
   }
 }
 
-/* ── Process grid ── */
+/* â”€â”€ Process grid â”€â”€ */
 @media (max-width: 760px) {
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1966,7 +1966,7 @@ html, body {
   }
 }
 
-/* ── Feature band (Design-Build) ── */
+/* â”€â”€ Feature band (Design-Build) â”€â”€ */
 @media (max-width: 900px) {
   .feature-band {
     grid-template-columns: 1fr;
@@ -1990,7 +1990,7 @@ html, body {
   }
 }
 
-/* ── Gallery ── */
+/* â”€â”€ Gallery â”€â”€ */
 @media (max-width: 760px) {
   .gallery {
     grid-template-columns: 1fr;
@@ -2006,7 +2006,7 @@ html, body {
   }
 }
 
-/* ── Stats: 1 column on mobile ── */
+/* â”€â”€ Stats: 1 column on mobile â”€â”€ */
 @media (max-width: 600px) {
   .stats {
     grid-template-columns: 1fr;
@@ -2019,7 +2019,7 @@ html, body {
   }
 }
 
-/* ── Location grid ── */
+/* â”€â”€ Location grid â”€â”€ */
 @media (max-width: 900px) {
   .location-grid {
     grid-template-columns: 1fr;
@@ -2034,7 +2034,7 @@ html, body {
   }
 }
 
-/* ── Contact panel (booking form) ── */
+/* â”€â”€ Contact panel (booking form) â”€â”€ */
 @media (max-width: 900px) {
   .contact-panel {
     grid-template-columns: 1fr;
@@ -2061,7 +2061,7 @@ html, body {
   }
 }
 
-/* ── Social contact grid (in contact section) ── */
+/* â”€â”€ Social contact grid (in contact section) â”€â”€ */
 .social-contact-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2117,7 +2117,7 @@ html, body {
   margin-bottom: 2px;
 }
 
-/* ── Social dock: hide on mobile, show as bar ── */
+/* â”€â”€ Social dock: hide on mobile, show as bar â”€â”€ */
 @media (max-width: 900px) {
   .social-dock {
     position: static;
@@ -2131,7 +2131,7 @@ html, body {
   }
 }
 
-/* ── Field video section ── */
+/* â”€â”€ Field video section â”€â”€ */
 @media (max-width: 760px) {
   .field-video-section {
     grid-template-columns: 1fr;
@@ -2143,7 +2143,7 @@ html, body {
   }
 }
 
-/* ── Cinematic carousel ── */
+/* â”€â”€ Cinematic carousel â”€â”€ */
 @media (max-width: 600px) {
   .cinematic-slide {
     height: clamp(280px, 80vw, 420px);
@@ -2170,7 +2170,7 @@ html, body {
   .cinematic-next { right: 8px; }
 }
 
-/* ── Home carousel caption ── */
+/* â”€â”€ Home carousel caption â”€â”€ */
 @media (max-width: 600px) {
   .home-carousel-slide {
     height: clamp(300px, 80vw, 420px);
@@ -2181,7 +2181,7 @@ html, body {
   }
 }
 
-/* ── Footer ── */
+/* â”€â”€ Footer â”€â”€ */
 @media (max-width: 480px) {
   .footer {
     padding: 36px 20px;
@@ -2192,7 +2192,7 @@ html, body {
   }
 }
 
-/* ── About index grid on mobile ── */
+/* â”€â”€ About index grid on mobile â”€â”€ */
 @media (max-width: 760px) {
   .about-index-grid {
     grid-template-columns: 1fr;
@@ -2200,7 +2200,7 @@ html, body {
   }
 }
 
-/* ── Trust bar on mobile ── */
+/* â”€â”€ Trust bar on mobile â”€â”€ */
 @media (max-width: 760px) {
   .about-trust-bar {
     grid-template-columns: repeat(2, 1fr);
@@ -2214,7 +2214,7 @@ html, body {
   }
 }
 
-/* ── Brand logo grid: always 2 col on very small phones ── */
+/* â”€â”€ Brand logo grid: always 2 col on very small phones â”€â”€ */
 @media (max-width: 360px) {
   .brand-logo-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -2227,7 +2227,7 @@ html, body {
   }
 }
 
-/* ── Typography floor on smallest phones ── */
+/* â”€â”€ Typography floor on smallest phones â”€â”€ */
 @media (max-width: 380px) {
   h2 {
     font-size: clamp(28px, 9vw, 38px);
@@ -2242,7 +2242,7 @@ html, body {
   }
 }
 
-/* ── Touch target minimum size (accessibility) ── */
+/* â”€â”€ Touch target minimum size (accessibility) â”€â”€ */
 @media (max-width: 900px) {
   .button,
   .nav-cta,
@@ -2254,72 +2254,78 @@ html, body {
   }
 }
 
-/* ══════════════════════════════════════════════════════
-   SCROLL-LOCK VIDEO SECTIONS
-   JS intercepts wheel/touch while video plays.
-   Scene occupies exactly 100vh — scroll is captured.
-   ══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   SCROLL-SCRUBBED VIDEO SECTIONS
+   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   â€¢ .scroll-video-scene  â†’ 300 vh tall (gives scroll room)
+   â€¢ .scroll-video-sticky â†’ position:sticky, 100 vh
+     (stays pinned in viewport while user scrolls through)
+   â€¢ JS maps scroll progress 0â†’1 to video.currentTime
+   â€¢ Scrolling back rewinds the video â€” fully bidirectional
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* Scene = one full viewport. Scroll is managed by JS. */
 .scroll-video-scene {
   position: relative;
+  /* Break out of any padded/constrained parent */
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  height: 100vh;          /* compact: scroll is intercepted */
+  height: 300vh;           /* 2 extra viewports of scroll travel */
 }
 
-/* Sticky fills the scene — used as a visual container */
 .scroll-video-sticky {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background: #000;
 }
 
-/* Video fills the sticky frame at full resolution — no letterboxing */
+/* â”€â”€ Video: full-resolution cover, no letterboxing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   object-fit:cover maintains the video's native aspect ratio
+   and scales it up to fill the container â€” exactly the same
+   quality as the source file, just cropped on the edges.    */
 .scroll-video-el {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%) translateZ(0);
-  object-fit: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* fill frame, keep aspect ratio   */
   object-position: center center;
   display: block;
-  will-change: transform;
+  /* GPU layer for smooth frame updates */
+  will-change: contents;
+  transform: translateZ(0);
 }
 
-/* Dark gradient overlay — hero (Video 1) */
+/* â”€â”€ Overlays â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scroll-video-overlay {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(5,8,12,0.88) 0%, rgba(5,8,12,0.55) 50%, rgba(5,8,12,0.22) 100%),
-    linear-gradient(0deg, rgba(5,8,12,0.72) 0%, rgba(5,8,12,0.06) 55%);
+    linear-gradient(90deg, rgba(5,8,12,0.82) 0%, rgba(5,8,12,0.44) 52%, rgba(5,8,12,0.16) 100%),
+    linear-gradient(0deg,  rgba(5,8,12,0.68) 0%, rgba(5,8,12,0.04) 52%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Subtle overlay — section 2 (Video 2) */
 .scroll-video-overlay--subtle {
   background:
-    linear-gradient(0deg, rgba(5,8,12,0.82) 0%, rgba(5,8,12,0.28) 40%, rgba(5,8,12,0.14) 100%);
+    linear-gradient(0deg, rgba(5,8,12,0.78) 0%, rgba(5,8,12,0.22) 42%, rgba(5,8,12,0.10) 100%);
 }
 
-/* Content layer */
+/* â”€â”€ Text content layer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scroll-video-content {
   position: absolute;
   z-index: 2;
   bottom: 10vh;
-  left: clamp(18px, 5vw, 72px);
-  width: min(780px, 100% - clamp(36px, 10vw, 144px));
-  color: var(--white);
-  animation: svFadeIn 1s ease 0.3s both;
+  left: clamp(20px, 5vw, 72px);
+  width: min(760px, 100% - clamp(40px, 10vw, 144px));
+  color: #fff;
+  animation: svFadeIn 0.9s ease 0.2s both;
 }
 
 .scroll-video-content--bottom {
@@ -2327,33 +2333,34 @@ html, body {
 }
 
 @keyframes svFadeIn {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
-/* Hero-card inside the scene */
+/* â”€â”€ Hero info card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scroll-video-sticky .hero-card {
   position: absolute;
-  right: clamp(18px, 5vw, 72px);
-  bottom: 52px;
+  right: clamp(20px, 5vw, 64px);
+  bottom: 56px;
   z-index: 3;
-  width: min(360px, calc(100% - 36px));
-  padding: 24px;
-  border-left: 5px solid var(--orange);
-  background: rgba(12, 17, 24, 0.82);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow);
-  color: var(--white);
+  width: min(340px, calc(100% - 40px));
+  padding: 22px 24px;
+  border-left: 4px solid var(--orange);
+  background: rgba(10, 14, 20, 0.80);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  color: #fff;
 }
 
-/* Orange progress bar at bottom */
+/* â”€â”€ Progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scroll-video-progress {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: rgba(255,255,255,0.15);
+  height: 3px;
+  background: rgba(255,255,255,0.12);
   z-index: 4;
 }
 
@@ -2364,51 +2371,53 @@ html, body {
   transition: width 0.04s linear;
 }
 
-/* Scroll-hint label — appears while video is locked */
+/* â”€â”€ Scroll hint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scroll-video-hint {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  color: rgba(255,255,255,0.65);
-  font-size: 12px;
+  gap: 6px;
+  color: rgba(255,255,255,0.60);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.6px;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
 }
 
 .scroll-video-hint svg {
-  width: 28px;
-  height: 28px;
-  animation: svHintBounce 1.4s ease-in-out infinite;
+  width: 24px;
+  height: 24px;
+  animation: svBounce 1.5s ease-in-out infinite;
 }
 
-@keyframes svHintBounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(7px); }
+@keyframes svBounce {
+  0%, 100% { transform: translateY(0);   opacity: 1;    }
+  50%       { transform: translateY(8px); opacity: 0.55; }
 }
 
-/* Hide hint once video is done */
-.scroll-video-scene.is-done .scroll-video-hint {
-  opacity: 0;
-}
-
-/* ── Mobile ── */
+/* â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 700px) {
+  .scroll-video-scene {
+    height: 350vh;   /* extra room on small screens */
+  }
+
   .scroll-video-content {
-    bottom: 14vh;
+    bottom: 13vh;
     width: calc(100% - 36px);
   }
 
   .scroll-video-sticky .hero-card {
     display: none;
   }
-}
 
+  .scroll-video-hint {
+    bottom: 18px;
+  }
+}
