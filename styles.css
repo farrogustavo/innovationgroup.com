@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --ink: #0c1118;
   --navy: #111923;
   --steel: #dbe3ea;
@@ -170,6 +170,12 @@ h2,
 h3,
 p {
   margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  text-transform: uppercase;
 }
 
 h1 {
@@ -1387,10 +1393,11 @@ h1, h2, h3, h4 {
 }
 
 .field-video-section {
-  display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(320px, 1fr);
-  gap: clamp(28px, 5vw, 70px);
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: clamp(28px, 5vw, 40px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1410,11 +1417,9 @@ h1, h2, h3, h4 {
 }
 
 .field-video-frame {
-  overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: #05080c;
-  box-shadow: 0 42px 100px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .field-video-frame video {
@@ -2269,16 +2274,12 @@ html, body {
   /* Break out of any padded/constrained parent */
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  height: 300vh;           /* 2 extra viewports of scroll travel */
 }
 
 .scroll-video-sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100vw;
-  height: 100vh;
+  height: auto;
   overflow: hidden;
   background: #000;
 }
@@ -2288,17 +2289,16 @@ html, body {
    and scales it up to fill the container â€” exactly the same
    quality as the source file, just cropped on the edges.    */
 .scroll-video-el {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;          /* fill frame, keep aspect ratio   */
+  position: relative;
+  width: 80vw;
+  height: 90vh;
+  margin: 5vh auto;
+  border-radius: 20px;
+  object-fit: cover;
   object-position: center center;
   display: block;
   /* GPU layer for smooth frame updates */
   will-change: contents;
-  transform: translateZ(0);
 }
 
 /* â”€â”€ Overlays â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -2321,7 +2321,7 @@ html, body {
 .scroll-video-content {
   position: absolute;
   z-index: 2;
-  bottom: 10vh;
+  bottom: 8%;
   left: clamp(20px, 5vw, 72px);
   width: min(760px, 100% - clamp(40px, 10vw, 144px));
   color: #fff;
@@ -2404,9 +2404,6 @@ html, body {
 
 /* â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 700px) {
-  .scroll-video-scene {
-    height: 350vh;   /* extra room on small screens */
-  }
 
   .scroll-video-content {
     bottom: 13vh;
@@ -2420,4 +2417,15 @@ html, body {
   .scroll-video-hint {
     bottom: 18px;
   }
+}
+
+.field-video-frame video {
+  position: relative;
+  width: 80vw;
+  height: 90vh;
+  margin: 5vh auto;
+  border-radius: 20px;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }

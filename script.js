@@ -235,7 +235,7 @@ if (heroCarousel) {
       }
     };
 
-    const entry = { scene, video, progressBar, hint, isSeekable: () => seekable };
+    const entry = { scene, video, progressBar, hint, targetTime: 0, isSeekable: () => seekable };
     entries.push(entry);
 
     if (video.readyState >= 3) {
@@ -250,6 +250,10 @@ if (heroCarousel) {
     if (!isSeekable())                      return;
     if (!isFinite(video.duration) || video.duration <= 0) return;
 
+    const maxDuration = video.hasAttribute('data-duration') 
+                        ? parseFloat(video.getAttribute('data-duration')) 
+                        : video.duration;
+
     const rect        = scene.getBoundingClientRect();
     const sceneTop    = window.scrollY + rect.top;
     const scrollRange = scene.offsetHeight - window.innerHeight;
@@ -257,11 +261,9 @@ if (heroCarousel) {
 
     const scrolled  = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
     const progress  = scrolled / scrollRange;               // 0 → 1
-    const target    = progress * video.duration;
-
-    if (Math.abs(video.currentTime - target) > 0.016) {
-      video.currentTime = target;
-    }
+    
+    // Store target time for smooth lerping
+    entry.targetTime = progress * maxDuration;
 
     if (progressBar) {
       progressBar.style.width = (progress * 100).toFixed(2) + "%";
@@ -293,21 +295,39 @@ if (heroCarousel) {
 
   entries.forEach(({ scene }) => io.observe(scene));
 
-  /* ── RAF scroll loop ──────────────────────────────────── */
+  /* ── RAF scroll loop with lerp ─────────────────────────── */
   let rafId     = null;
   let lastScrollY = -1;
 
   const onTick = () => {
-    rafId = null;
+    let needsUpdate = false;
     const scrollY = window.scrollY;
-    if (scrollY === lastScrollY) return;
-    lastScrollY = scrollY;
+    
+    if (scrollY !== lastScrollY) {
+      needsUpdate = true;
+      lastScrollY = scrollY;
+    }
 
     entries.forEach((entry) => {
       if (visible.has(entry.scene)) {
         scrubScene(entry);
+        
+        // Smooth interpolation (lerp) towards targetTime
+        const diff = entry.targetTime - entry.video.currentTime;
+        if (Math.abs(diff) > 0.015) {
+          entry.video.currentTime += diff * 0.08; // Easing factor
+          needsUpdate = true;
+        } else if (Math.abs(diff) > 0.001) {
+          entry.video.currentTime = entry.targetTime;
+        }
       }
     });
+
+    if (needsUpdate) {
+      rafId = requestAnimationFrame(onTick);
+    } else {
+      rafId = null;
+    }
   };
 
   const onScroll = () => {
@@ -317,6 +337,11 @@ if (heroCarousel) {
   window.addEventListener("scroll", onScroll, { passive: true });
 
   /* Initial paint */
-  requestAnimationFrame(onTick);
+  rafId = requestAnimationFrame(onTick);
 
+})();
+
+(function slowDownVideos() {
+  const videos = document.querySelectorAll('.scroll-video-el');
+  videos.forEach(v => { v.playbackRate = 0.75; });
 })();
