@@ -2255,42 +2255,38 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════
-   SCROLL-ORCHESTRATED VIDEO SECTIONS
-   video plays frame-by-frame as the user scrolls
+   SCROLL-LOCK VIDEO SECTIONS
+   JS intercepts wheel/touch while video plays.
+   Scene occupies exactly 100vh — scroll is captured.
    ══════════════════════════════════════════════════════ */
 
-/* Outer scene wrapper — tall enough to give scroll room.
-   300vh = 1 viewport pinned + 2 viewports of scroll travel */
+/* Scene = one full viewport. Scroll is managed by JS. */
 .scroll-video-scene {
   position: relative;
-  /* Break out of any parent max-width / padding constraints */
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  height: 300vh;
+  height: 100vh;          /* compact: scroll is intercepted */
 }
 
-/* Sticky container that pins to viewport during scroll */
+/* Sticky fills the scene — used as a visual container */
 .scroll-video-sticky {
   position: sticky;
   top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background: #000;
 }
 
-/* Video fills the sticky frame at full native resolution — no letterboxing */
+/* Video fills the sticky frame at full resolution — no letterboxing */
 .scroll-video-el {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* Minimum size guarantees full coverage in both axes */
   min-width: 100%;
   min-height: 100%;
   width: auto;
   height: auto;
-  /* Center the video */
   transform: translate(-50%, -50%) translateZ(0);
   object-fit: cover;
   object-position: center center;
@@ -2298,7 +2294,7 @@ html, body {
   will-change: transform;
 }
 
-/* Dark gradient overlay for hero (Video 1) */
+/* Dark gradient overlay — hero (Video 1) */
 .scroll-video-overlay {
   position: absolute;
   inset: 0;
@@ -2309,7 +2305,7 @@ html, body {
   z-index: 1;
 }
 
-/* Subtle overlay for section 2 (Video 2) */
+/* Subtle overlay — section 2 (Video 2) */
 .scroll-video-overlay--subtle {
   background:
     linear-gradient(0deg, rgba(5,8,12,0.82) 0%, rgba(5,8,12,0.28) 40%, rgba(5,8,12,0.14) 100%);
@@ -2319,19 +2315,15 @@ html, body {
 .scroll-video-content {
   position: absolute;
   z-index: 2;
-  /* Default: left-aligned hero position */
   bottom: 10vh;
   left: clamp(18px, 5vw, 72px);
   width: min(780px, 100% - clamp(36px, 10vw, 144px));
   color: var(--white);
-  /* Fade-in on first paint */
   animation: svFadeIn 1s ease 0.3s both;
 }
 
-/* Bottom-aligned variant for section 2 */
 .scroll-video-content--bottom {
   bottom: 8vh;
-  left: clamp(18px, 5vw, 72px);
 }
 
 @keyframes svFadeIn {
@@ -2339,7 +2331,7 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* hero-card stays inside sticky container */
+/* Hero-card inside the scene */
 .scroll-video-sticky .hero-card {
   position: absolute;
   right: clamp(18px, 5vw, 72px);
@@ -2354,13 +2346,13 @@ html, body {
   color: var(--white);
 }
 
-/* Thin scroll-progress bar at bottom of sticky */
+/* Orange progress bar at bottom */
 .scroll-video-progress {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: rgba(255,255,255,0.15);
   z-index: 4;
 }
@@ -2369,17 +2361,49 @@ html, body {
   height: 100%;
   width: 0%;
   background: var(--orange);
-  transition: width 0.05s linear;
+  transition: width 0.04s linear;
 }
 
-/* ── Responsive adjustments ── */
-@media (max-width: 700px) {
-  .scroll-video-scene {
-    height: 350vh;
-  }
+/* Scroll-hint label — appears while video is locked */
+.scroll-video-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.65);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
 
+.scroll-video-hint svg {
+  width: 28px;
+  height: 28px;
+  animation: svHintBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes svHintBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(7px); }
+}
+
+/* Hide hint once video is done */
+.scroll-video-scene.is-done .scroll-video-hint {
+  opacity: 0;
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
   .scroll-video-content {
-    bottom: 12vh;
+    bottom: 14vh;
     width: calc(100% - 36px);
   }
 

@@ -189,7 +189,6 @@ if (bookingForm) {
       return;
     }
 
-    // Form is valid, let it submit to FormSubmit naturally
     setBookingStatus("Sending your request...", "success");
   });
 }
@@ -339,32 +338,37 @@ if (heroCarousel) {
 
 
 /* ══════════════════════════════════════════════════════
-   SCROLL-ORCHESTRATED VIDEO SCRUBBER
-   Scroll controls video.currentTime frame by frame.
-   Videos are unlocked via a silent play→pause to allow
-   seeking without autoplay restrictions.
+   SCROLL-LOCK VIDEO SCRUBBER
+   ─────────────────────────────────────────────────────
+   When a video section enters the viewport:
+     1. Scroll is captured (wheel / touch / keyboard).
+     2. Accumulated delta maps directly to video.currentTime.
+     3. When progress reaches 100% the lock releases and
+        the page scrolls naturally to the next section.
    ══════════════════════════════════════════════════════ */
 (function initScrollVideos() {
   const scenes = document.querySelectorAll("[data-scroll-video-scene]");
   if (!scenes.length) return;
 
+  /* Total pixels of scroll delta needed to play the full video.
+     Tune this number for desired scrub "weight". */
+  const SCROLL_PIXELS = 2400;
+
+  /* ── Build entry list ─────────────────────────────── */
   const entries = [];
 
   scenes.forEach((scene) => {
     const id = scene.dataset.scrollVideoScene;
     const video = scene.querySelector(`[data-scroll-video="${id}"]`);
-    const progressWrap = scene.querySelector(`[data-scroll-progress="${id}"]`);
-    const progressBar = progressWrap
-      ? progressWrap.querySelector(".scroll-video-progress-bar")
-      : null;
+    const progressBar = scene.querySelector(".scroll-video-progress-bar");
+    const hint = scene.querySelector(`[data-scroll-hint="${id}"]`);
 
     if (!video) return;
 
     let seekable = false;
 
-    // ── Unlock: play a tiny bit then immediately pause.
-    // This primes the video buffer so seeking works without
-    // full autoplay (required on Chrome, Safari, Firefox).
+    /* Unlock: silent play → pause to prime the buffer so
+       seeking works without triggering autoplay policy.    */
     const unlock = () => {
       video.muted = true;
       video.playsInline = true;
@@ -374,69 +378,180 @@ if (heroCarousel) {
           video.pause();
           video.currentTime = 0;
           seekable = true;
-          scrubAll(); // render first frame immediately
         }).catch(() => {
-          // play() blocked — try seeking directly anyway
-          seekable = true;
-          scrubAll();
+          seekable = true; // try seeking anyway
         });
       } else {
         video.pause();
         seekable = true;
-        scrubAll();
       }
     };
 
-    // Wait for enough data before unlocking
     if (video.readyState >= 3) {
       unlock();
     } else {
       video.addEventListener("canplay", unlock, { once: true });
     }
 
-    entries.push({ scene, video, progressBar, seekable: () => seekable });
+    entries.push({
+      scene,
+      video,
+      progressBar,
+      hint,
+      isSeekable: () => seekable,
+      done: false,
+      accumulated: 0   // px of scroll delta consumed
+    });
   });
 
-  // ── Scroll scrubber ──────────────────────────────────
-  let rafId = null;
-  let lastScrollY = -1;
+  /* ── State ────────────────────────────────────────── */
+  let active = null;      // currently locked entry
+  let isLocked = false;
+  let savedScrollY = 0;
+  let touchStartY = 0;
 
-  const scrubAll = () => {
-    rafId = null;
-    const scrollY = window.scrollY;
-    if (scrollY === lastScrollY) return;
-    lastScrollY = scrollY;
+  /* ── Intersection observer: activate when scene fully
+     enters the viewport (threshold 0.85)               */
+  const io = new IntersectionObserver((ioEntries) => {
+    ioEntries.forEach((ioEntry) => {
+      const entry = entries.find(e => e.scene === ioEntry.target);
+      if (!entry || entry.done) return;
 
-    entries.forEach(({ scene, video, progressBar, seekable }) => {
-      if (!seekable()) return;
-      if (!isFinite(video.duration) || video.duration <= 0) return;
-
-      // Position of scene top in document coordinates
-      const sceneTop = scene.getBoundingClientRect().top + scrollY;
-      const scrollRange = scene.offsetHeight - window.innerHeight;
-      if (scrollRange <= 0) return;
-
-      const scrolled = Math.max(0, Math.min(scrollRange, scrollY - sceneTop));
-      const progress = scrolled / scrollRange;
-      const target   = progress * video.duration;
-
-      if (Math.abs(video.currentTime - target) > 0.015) {
-        video.currentTime = target;
-      }
-
-      if (progressBar) {
-        progressBar.style.width = (progress * 100).toFixed(2) + "%";
+      if (ioEntry.isIntersecting && !active) {
+        activateEntry(entry);
+      } else if (!ioEntry.isIntersecting && active === entry) {
+        /* User scrolled away (e.g. back-scroll past the section) */
+        releaseScroll(false);
       }
     });
-  };
+  }, { threshold: 0.85 });
 
-  const onScroll = () => {
-    if (!rafId) rafId = requestAnimationFrame(scrubAll);
-  };
+  entries.forEach(e => io.observe(e.scene));
 
-  window.addEventListener("scroll", onScroll, { passive: true });
+  /* ── Activate: lock the page on this entry ─────────── */
+  function activateEntry(entry) {
+    active = entry;
+    savedScrollY = window.scrollY;
 
-  // Initial paint on page load
-  scrubAll();
+    /* Restore accumulated from current video position
+       (handles re-entering a partially watched scene)   */
+    entry.accumulated = (entry.video.currentTime / (entry.video.duration || 1)) * SCROLL_PIXELS;
+
+    lockScroll();
+  }
+
+  /* ── Lock body scroll ────────────────────────────── */
+  function lockScroll() {
+    if (isLocked) return;
+    isLocked = true;
+    /* position:fixed trick to suppress native scroll
+       while preserving visual position               */
+    document.body.style.overflow  = "hidden";
+    document.body.style.position  = "fixed";
+    document.body.style.top       = `-${savedScrollY}px`;
+    document.body.style.width     = "100%";
+
+    window.addEventListener("wheel",      onWheel,      { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true  });
+    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
+    window.addEventListener("keydown",    onKey,        { passive: false });
+  }
+
+  /* ── Release: unlock body, optionally advance page ─ */
+  function releaseScroll(finished) {
+    if (!isLocked) return;
+    const entry = active;
+    active = null;
+    isLocked = false;
+
+    /* Restore scroll position */
+    const top = Math.abs(parseInt(document.body.style.top || "0", 10));
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top      = "";
+    document.body.style.width    = "";
+    window.scrollTo(0, top);
+
+    window.removeEventListener("wheel",      onWheel);
+    window.removeEventListener("touchstart", onTouchStart);
+    window.removeEventListener("touchmove",  onTouchMove);
+    window.removeEventListener("keydown",    onKey);
+
+    if (finished && entry) {
+      entry.done = true;
+      entry.scene.classList.add("is-done");
+
+      /* Hide the hint */
+      if (entry.hint) entry.hint.style.opacity = "0";
+
+      /* Scroll to the section just below the video */
+      const sceneBottom = entry.scene.getBoundingClientRect().bottom + window.scrollY;
+      setTimeout(() => {
+        window.scrollTo({ top: sceneBottom, behavior: "smooth" });
+      }, 80);
+    }
+  }
+
+  /* ── Delta handler: advance or rewind video ──────── */
+  function applyDelta(delta) {
+    if (!active || !active.isSeekable()) return;
+
+    const { video, progressBar, hint } = active;
+    const duration = video.duration;
+    if (!isFinite(duration) || duration <= 0) return;
+
+    active.accumulated = Math.max(0, Math.min(SCROLL_PIXELS, active.accumulated + delta));
+    const progress = active.accumulated / SCROLL_PIXELS;
+    const target   = progress * duration;
+
+    video.currentTime = Math.min(duration, target);
+
+    if (progressBar) {
+      progressBar.style.width = (progress * 100).toFixed(2) + "%";
+    }
+
+    /* Fade hint out once user starts scrolling */
+    if (hint && progress > 0.02) {
+      hint.style.opacity = "0";
+    }
+
+    /* Video finished → release scroll */
+    if (progress >= 1) {
+      video.currentTime = duration;
+      releaseScroll(true);
+    }
+  }
+
+  /* ── Event listeners ─────────────────────────────── */
+  function onWheel(e) {
+    e.preventDefault();
+    applyDelta(e.deltaY);
+  }
+
+  function onTouchStart(e) {
+    touchStartY = e.touches[0].clientY;
+  }
+
+  function onTouchMove(e) {
+    e.preventDefault();
+    const dy = touchStartY - e.touches[0].clientY;
+    touchStartY = e.touches[0].clientY;
+    applyDelta(dy * 2.5);  // amplify for comfortable touch scrubbing
+  }
+
+  function onKey(e) {
+    const map = {
+      ArrowDown: 60,
+      ArrowRight: 60,
+      ArrowUp: -60,
+      ArrowLeft: -60,
+      PageDown: 400,
+      PageUp: -400,
+      " ": 200
+    };
+    if (map[e.key] !== undefined) {
+      e.preventDefault();
+      applyDelta(map[e.key]);
+    }
+  }
 })();
-
