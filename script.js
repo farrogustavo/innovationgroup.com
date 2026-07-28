@@ -343,5 +343,5 @@ if (heroCarousel) {
 
 (function slowDownVideos() {
   const videos = document.querySelectorAll('.scroll-video-el');
-  videos.forEach(v => { v.playbackRate = 0.75; });
+  videos.forEach(v => { v.playbackRate = 0.4; });
 })();

@@ -2288,7 +2288,7 @@ html, body {
    object-fit:cover maintains the video's native aspect ratio
    and scales it up to fill the container â€” exactly the same
    quality as the source file, just cropped on the edges.    */
-.scroll-video-el {
+.scroll-video-el { background: #000;
   position: relative;
   width: 80vw;
   height: 90vh;
