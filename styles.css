@@ -2288,18 +2288,17 @@ html, body {
    object-fit:cover maintains the video's native aspect ratio
    and scales it up to fill the container â€” exactly the same
    quality as the source file, just cropped on the edges.    */
-.scroll-video-el { background: #000;
+.scroll-video-el {
+  background: #000;
   position: relative;
-  width: 80vw;
-  height: 90vh;
-  margin: 5vh auto;
-  border-radius: 20px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  border-radius: 0;
   object-fit: cover;
   object-position: center center;
   display: block;
-  /* GPU layer for smooth frame updates */
   will-change: contents;
-  /* Enhanced brightness and definition for professional look */
   filter: brightness(1.15) contrast(1.12) saturate(1.08);
 }
 
@@ -2423,14 +2422,14 @@ html, body {
 
 .field-video-frame video {
   position: relative;
-  width: 80vw;
-  height: 90vh;
-  margin: 5vh auto;
-  border-radius: 20px;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(300px, 56vw, 700px);
+  margin: 0;
+  border-radius: 0;
   object-fit: cover;
   object-position: center center;
   display: block;
-  /* Enhanced brightness and definition for professional look */
   filter: brightness(1.15) contrast(1.12) saturate(1.08);
 }
 
@@ -2515,6 +2514,8 @@ html, body {
 .about-hero-video-wrap {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   z-index: 0;
 }
@@ -2524,20 +2525,24 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.55) contrast(1.1) saturate(0.9);
+  filter: brightness(0.55) contrast(1.15) saturate(1.0);
 }
 
 .about-hero.has-video {
   background: #060a0f !important;
+  width: 100vw;
+  margin-left: 0;
 }
 
 /* ─── SERVICE DETAIL PAGE ───────────────── */
 .service-detail-hero {
   position: relative;
-  min-height: 480px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  min-height: 100vh;
   display: flex;
   align-items: flex-end;
-  padding: 180px clamp(18px, 5vw, 72px) 72px;
+  padding: 0 clamp(18px, 5vw, 72px) 80px;
   overflow: hidden;
   color: #fff;
   background: #060a0f;
@@ -2549,7 +2554,7 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.5) contrast(1.1) saturate(0.85);
+  filter: brightness(0.52) contrast(1.15) saturate(0.9);
   z-index: 0;
 }
 
