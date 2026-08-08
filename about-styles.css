@@ -23,14 +23,18 @@
   align-items: flex-end;
   padding: 180px clamp(18px, 5vw, 72px) 72px;
   overflow: hidden;
-  color: var(--white);
-  background: var(--ink);
+  color: #fff;
+  background: #060a0f;
 }
 
 .about-hero {
   background:
     linear-gradient(rgba(5,8,12,0.72) 0%, rgba(5,8,12,0.88) 100%),
     url('electrical-panel-close.jpg') center / cover no-repeat;
+}
+
+.about-hero.has-video {
+  background: #060a0f !important;
 }
 
 .mission-hero {
