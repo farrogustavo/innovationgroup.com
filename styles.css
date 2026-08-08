@@ -41,7 +41,7 @@ a {
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
-  color: var(--white);
+  color: var(--ink);
   transition: background 180ms ease, box-shadow 180ms ease;
 }
 
@@ -76,7 +76,6 @@ a {
 .brand img {
   width: auto;
   max-width: clamp(150px, 18vw, 240px);
-  max-height: 92px;
   height: auto;
 }
 
