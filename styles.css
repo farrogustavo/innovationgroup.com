@@ -73,19 +73,21 @@ a {
   padding: 14px clamp(18px, 5vw, 72px);
 }
 
-.brand img {
-  width: auto;
-  max-width: clamp(150px, 18vw, 240px);
-  height: auto;
+.brand img,
+.footer img {
+  width: auto !important;
+  max-width: clamp(200px, 28vw, 360px) !important;
+  height: auto !important;
+  object-fit: contain !important;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 18px;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
