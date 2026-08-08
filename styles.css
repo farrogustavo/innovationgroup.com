@@ -73,12 +73,11 @@ a {
   padding: 14px clamp(18px, 5vw, 72px);
 }
 
-.brand img,
-.footer img {
-  width: auto !important;
-  max-width: clamp(200px, 28vw, 360px) !important;
-  height: auto !important;
-  object-fit: contain !important;
+.brand img {
+  width: auto;
+  max-width: clamp(150px, 18vw, 240px);
+  max-height: 92px;
+  height: auto;
 }
 
 .nav-links {
