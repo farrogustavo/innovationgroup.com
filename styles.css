@@ -86,8 +86,9 @@ a {
 }
 
 .nav-logo {
-  width: 160px;    /* ← SOLO cambia este número para agrandar/achicar el logo */
-  height: 70px;    /* ← FIJO — controla el alto de la franja. No tocar.       */
+  width: 280px;    /* Aumentado a 280px para que se lea perfectamente "Electrical Contractor" */
+  height: auto;    
+  max-height: 180px;
   object-fit: contain;
   object-position: left center;
   display: block;
