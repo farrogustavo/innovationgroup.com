@@ -100,6 +100,7 @@ a {
   height: auto;
   object-fit: contain;
   display: block;
+  mix-blend-mode: screen; /* elimina el fondo negro de la imagen JPG también en footer y otras páginas */
 }
 
 .nav-links {
