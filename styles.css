@@ -77,10 +77,11 @@ a {
   display: block;
 }
 
+/* ── Tamaño estándar del logo en toda la web ── */
+.site-logo,
 .nav-logo {
-  width: clamp(160px, 20vw, 280px);
+  width: 160px;
   height: auto;
-  max-height: 80px;
   object-fit: contain;
   display: block;
 }
@@ -755,7 +756,9 @@ h3 {
 }
 
 .footer img {
-  width: min(260px, 72vw);
+  width: 160px;
+  height: auto;
+  object-fit: contain;
 }
 
 .fine {
