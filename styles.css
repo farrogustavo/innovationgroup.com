@@ -379,7 +379,7 @@ h3 {
   min-height: 760px;
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
   background: var(--ink);
-  color: #ffffff;
+  color: #111923;
   overflow: hidden;
 }
 
@@ -1822,7 +1822,7 @@ h4 {
 
 .associations-section {
   background: #fff;
-  color: var(--ink);
+  color: #111923;
 }
 
 .certificates-section {
