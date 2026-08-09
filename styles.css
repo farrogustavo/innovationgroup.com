@@ -74,10 +74,13 @@ a {
 }
 
 .brand img {
-  width: auto;
-  max-width: clamp(120px, 15vw, 180px);
-  max-height: 70px;
+  display: block;
+}
+
+.nav-logo {
+  width: clamp(160px, 20vw, 280px);
   height: auto;
+  max-height: 80px;
   object-fit: contain;
   display: block;
 }
