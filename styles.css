@@ -73,13 +73,20 @@ a {
   padding: 14px clamp(18px, 5vw, 72px);
 }
 
-.brand img {
+/* ── Logo dentro del navbar (totalmente independiente del panel) ── */
+.brand {
+  flex-shrink: 0; /* evita que el logo comprima los demás elementos del nav */
+}
+
+.nav-logo {
+  width: 220px;      /* ← modifica SOLO este valor para ajustar el logo del navbar */
+  height: auto;
+  object-fit: contain;
   display: block;
 }
 
-/* ── Tamaño estándar del logo en toda la web ── */
-.site-logo,
-.nav-logo {
+/* ── Logo estándar en el resto del sitio (footer, páginas internas) ── */
+.site-logo {
   width: 160px;
   height: auto;
   object-fit: contain;
