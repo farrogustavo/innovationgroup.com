@@ -42,13 +42,17 @@ a {
   inset: 0 0 auto;
   z-index: 50;
   color: var(--ink);
-  transition: background 180ms ease, box-shadow 180ms ease;
+  /* Sin fondo en ningún estado — solo logo y letras visibles */
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
+/* Fondo al hacer scroll eliminado — header siempre transparente */
 .site-header.is-scrolled {
-  background: rgba(12, 17, 24, 0.94);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(14px);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .topline {
@@ -56,7 +60,7 @@ a {
   justify-content: flex-end;
   gap: 24px;
   padding: 8px clamp(18px, 5vw, 72px);
-  background: rgba(5, 8, 12, 0.72);
+  background: transparent;
   font-size: 13px;
   color: #dbe3ea;
 }
