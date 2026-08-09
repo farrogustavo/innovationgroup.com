@@ -87,6 +87,7 @@ a {
   object-fit: contain;
   object-position: left center;
   display: block;
+  mix-blend-mode: screen; /* elimina el fondo negro de la imagen JPG */
 }
 
 /* ── Logo estándar en el resto del sitio (footer, páginas internas) ── */
