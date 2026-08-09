@@ -2836,15 +2836,15 @@ body {
 
 /* Contact panel is white card on dark background */
 .contact-panel {
-  color: #1a2533;
+  color: #ffffff;
 }
 
 .contact-panel h2 {
-  color: #1a2533;
+  color: #ffffff;
 }
 
 .contact-panel p {
-  color: #4a5568 !important;
+  color: #dbe3ea !important;
 }
 
 /* Location panel light bg */
