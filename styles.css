@@ -121,7 +121,7 @@ a {
 .nav-cta {
   padding: 12px 16px;
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .menu-toggle {
@@ -148,7 +148,7 @@ a {
   align-items: end;
   padding: 190px clamp(18px, 5vw, 72px) 76px;
   overflow: hidden;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .hero-media,
@@ -212,6 +212,10 @@ h2 {
   font-size: clamp(34px, 4.7vw, 64px);
   line-height: 0.98;
   letter-spacing: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 h3 {
@@ -245,7 +249,7 @@ h3 {
 
 .button-primary {
   background: var(--orange);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .button-ghost {
@@ -293,7 +297,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   background: var(--navy);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .quick-contact a {
@@ -373,7 +377,7 @@ h3 {
   min-height: 760px;
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
   background: var(--ink);
-  color: var(--white);
+  color: #ffffff;
   overflow: hidden;
 }
 
@@ -492,7 +496,7 @@ h3 {
   padding: 13px 15px;
   border-left: 4px solid var(--orange);
   background: rgba(12, 17, 24, 0.84);
-  color: var(--white);
+  color: #ffffff;
   font-weight: 900;
 }
 
@@ -767,7 +771,7 @@ h3 {
   gap: 12px;
   padding: 44px 18px;
   background: #080b10;
-  color: var(--white);
+  color: #ffffff;
   text-align: center;
 }
 
@@ -990,11 +994,11 @@ h4 {
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .about-us-section {
   background: var(--navy);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .about-us-section .section-heading h2 {
-  color: var(--white);
+  color: #ffffff;
 }
 
 .about-us-section .eyebrow {
@@ -1017,7 +1021,7 @@ h4 {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--white);
+  color: #ffffff;
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -1087,7 +1091,7 @@ h4 {
   font-size: 24px;
   font-weight: 700;
   margin: 0;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .about-index-card p {
@@ -1274,7 +1278,7 @@ h4 {
 .home-carousel-section {
   padding: clamp(72px, 9vw, 126px) clamp(18px, 5vw, 72px);
   background: #080b10;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .home-carousel-section .section-heading {
@@ -1284,7 +1288,7 @@ h4 {
 }
 
 .home-carousel-section .section-heading h2 {
-  color: var(--white);
+  color: #ffffff;
 }
 
 .home-carousel-section .section-heading p:not(.eyebrow) {
@@ -1340,7 +1344,7 @@ h4 {
   border-left: 4px solid var(--orange);
   background: rgba(8, 11, 16, 0.72);
   backdrop-filter: blur(18px);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .home-slide-caption span {
@@ -1373,7 +1377,7 @@ h4 {
   height: 54px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  color: var(--white);
+  color: #ffffff;
   background: rgba(8, 11, 16, 0.72);
   backdrop-filter: blur(14px);
   cursor: pointer;
@@ -1465,7 +1469,7 @@ h4 {
 .cinematic-carousel-section {
   padding: clamp(72px, 9vw, 126px) clamp(18px, 5vw, 72px);
   background: #080b10;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .field-video-section {
@@ -1483,7 +1487,7 @@ h4 {
 
 .field-video-copy h2,
 .cinematic-carousel-section .section-heading h2 {
-  color: var(--white);
+  color: #ffffff;
 }
 
 .field-video-copy p:not(.eyebrow),
@@ -1581,7 +1585,7 @@ h4 {
   border-left: 4px solid var(--orange);
   background: rgba(8, 11, 16, 0.72);
   backdrop-filter: blur(18px);
-  color: var(--white);
+  color: #ffffff;
 }
 
 .cinematic-caption span {
@@ -1609,7 +1613,7 @@ h4 {
   height: 54px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  color: var(--white);
+  color: #ffffff;
   background: rgba(8, 11, 16, 0.72);
   backdrop-filter: blur(14px);
   cursor: pointer;
@@ -1821,7 +1825,7 @@ h4 {
 
 .certificates-section {
   background: #080b10;
-  color: var(--white);
+  color: #ffffff;
 }
 
 .brand-section-title {
@@ -1831,7 +1835,7 @@ h4 {
 }
 
 .cert-title {
-  color: var(--white);
+  color: #ffffff;
 }
 
 .brand-logo-grid {
@@ -2179,7 +2183,7 @@ body {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
-  color: var(--white);
+  color: #ffffff;
   font-weight: 700;
   font-size: 14px;
   transition: background 200ms, border-color 200ms;
