@@ -9,11 +9,3 @@ Thumbs.db
 # Editor files
 .vscode/
 *.code-workspace
-
-# WhatsApp original (copiado como hero-video.mp4)
-WhatsApp Video*.mp4
-
-# Archivos de texto temporales
-bg-check.txt
-dark-bg.txt
-light-bg.txt
