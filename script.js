@@ -188,20 +188,16 @@ if (heroCarousel) {
 
 
 /* ════════════════════════════════════════════════════════════
-   SCROLL-SCRUBBED VIDEO
+   SCROLL-SCRUBBED VIDEO  (rewritten — robust version)
    ─────────────────────────────────────────────────────────
-   Each .scroll-video-scene is 300 vh tall.
-   The inner .scroll-video-sticky is position:sticky so it
-   stays in view while the user scrolls through the scene.
-   scroll progress (0→1) maps directly to video.currentTime.
-   Scrolling back rewinds the video — fully bidirectional.
+   Handles non-faststart MP4s (WhatsApp, phone recordings).
+   Uses multiple unlock strategies and a continuous RAF loop.
    ════════════════════════════════════════════════════════════ */
 (function initScrollVideos() {
 
   const scenes = document.querySelectorAll("[data-scroll-video-scene]");
   if (!scenes.length) return;
 
-  /* ── Build entry list ─────────────────────────────────── */
   const entries = [];
 
   scenes.forEach((scene) => {
@@ -212,133 +208,104 @@ if (heroCarousel) {
 
     if (!video) return;
 
-    /* ── Unlock seeking ──────────────────────────────────
-       Browsers require a play() call before seeking works.
-       We play silently for a frame then pause.             */
-    let seekable = false;
+    video.muted       = true;
+    video.playsInline = true;
+    video.preload     = "auto";
 
-    const unlock = () => {
-      video.muted       = true;
-      video.playsInline = true;
+    const entry = {
+      scene, video, progressBar, hint,
+      targetTime : 0,
+      unlocked   : false,
+    };
+    entries.push(entry);
+
+    /* ── Multi-strategy unlock ───────────────────────────
+       WhatsApp / phone-recorded MP4s have the moov atom at
+       the END of the file (not faststart), so `canplay` may
+       never fire until the full file downloads.
+       We try several events + a timeout fallback.           */
+    const tryUnlock = () => {
+      if (entry.unlocked) return;
       const p = video.play();
-      const finish = () => {
+      const done = () => {
         video.pause();
         video.currentTime = 0;
-        seekable = true;
-        // Run scrub immediately so first frame shows
-        scrubScene(entry);
+        entry.unlocked = true;
       };
       if (p && p.then) {
-        p.then(finish).catch(() => { seekable = true; scrubScene(entry); });
+        p.then(done).catch(() => {
+          // play() blocked (autoplay policy) — still mark ready
+          // so direct seeking can be attempted
+          entry.unlocked = true;
+        });
       } else {
-        finish();
+        done();
       }
     };
 
-    const entry = { scene, video, progressBar, hint, targetTime: 0, isSeekable: () => seekable };
-    entries.push(entry);
+    // Fire on whichever event comes first
+    ["loadedmetadata", "loadeddata", "canplay", "canplaythrough"].forEach((ev) => {
+      video.addEventListener(ev, tryUnlock, { once: true });
+    });
 
-    if (video.readyState >= 3) {
-      unlock();
-    } else {
-      video.addEventListener("canplay", unlock, { once: true });
-    }
+    // If already has metadata, unlock immediately
+    if (video.readyState >= 1) tryUnlock();
+
+    // Timeout fallback: after 2.5 s force-unlock (handles slow connections)
+    setTimeout(() => { if (!entry.unlocked) entry.unlocked = true; }, 2500);
   });
 
-  /* ── Scrub a single scene based on current scroll ─────── */
-  function scrubScene(entry) {
-    const { scene, video, progressBar, hint, isSeekable } = entry;
-    if (!isSeekable())                      return;
-    if (!isFinite(video.duration) || video.duration <= 0) return;
-
-    const maxDuration = video.hasAttribute('data-duration') 
-                        ? parseFloat(video.getAttribute('data-duration')) 
-                        : video.duration;
-
-    const rect        = scene.getBoundingClientRect();
-    const sceneTop    = window.scrollY + rect.top;
+  /* ── Calculate scrub position for one entry ───────────── */
+  function calcProgress(entry) {
+    const { scene } = entry;
+    const rect       = scene.getBoundingClientRect();
+    const sceneTop   = window.scrollY + rect.top;
     const scrollRange = scene.offsetHeight - window.innerHeight;
-    if (scrollRange <= 0)                   return;
-
-    const scrolled  = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
-    const progress  = scrolled / scrollRange;               // 0 → 1
-    
-    // Store target time for smooth lerping
-    entry.targetTime = progress * maxDuration;
-
-    if (progressBar) {
-      progressBar.style.width = (progress * 100).toFixed(2) + "%";
-    }
-
-    /* Fade hint after first 3 % of video */
-    if (hint && progress > 0.03) {
-      hint.style.opacity = "0";
-    } else if (hint && progress <= 0.01) {
-      hint.style.opacity = "1";
-    }
+    if (scrollRange <= 0) return 0;
+    const scrolled = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
+    return scrolled / scrollRange;                            // 0 → 1
   }
 
-  /* ── IntersectionObserver — only scrub when in view ──── */
-  const visible = new Set();
+  /* ── Continuous RAF loop ───────────────────────────────── */
+  const LERP = 0.18;   // 0.18 = snappy but smooth; 1.0 = instant
 
-  const io = new IntersectionObserver(
-    (ioEntries) => {
-      ioEntries.forEach((e) => {
-        if (e.isIntersecting) {
-          visible.add(e.target);
-        } else {
-          visible.delete(e.target);
-        }
-      });
-    },
-    { threshold: 0 }
-  );
-
-  entries.forEach(({ scene }) => io.observe(scene));
-
-  /* ── RAF scroll loop with lerp ─────────────────────────── */
-  let rafId     = null;
-  let lastScrollY = -1;
-
-  const onTick = () => {
-    let needsUpdate = false;
-    const scrollY = window.scrollY;
-    
-    if (scrollY !== lastScrollY) {
-      needsUpdate = true;
-      lastScrollY = scrollY;
-    }
-
+  function tick() {
     entries.forEach((entry) => {
-      if (visible.has(entry.scene)) {
-        scrubScene(entry);
-        
-        // Smooth interpolation (lerp) towards targetTime
-        const diff = entry.targetTime - entry.video.currentTime;
-        if (Math.abs(diff) > 0.015) {
-          entry.video.currentTime += diff * 0.08; // Easing factor
-          needsUpdate = true;
-        } else if (Math.abs(diff) > 0.001) {
-          entry.video.currentTime = entry.targetTime;
-        }
+      const { video, progressBar, hint } = entry;
+      if (!entry.unlocked) return;
+
+      // Resolve effective duration
+      const dur = video.hasAttribute("data-duration")
+        ? parseFloat(video.dataset.duration)
+        : (isFinite(video.duration) && video.duration > 0 ? video.duration : 0);
+      if (dur <= 0) return;
+
+      const progress = calcProgress(entry);
+      entry.targetTime = progress * dur;
+
+      // Progress bar
+      if (progressBar) {
+        progressBar.style.width = (progress * 100).toFixed(1) + "%";
+      }
+
+      // Hint fade
+      if (hint) {
+        hint.style.opacity = progress > 0.03 ? "0" : "1";
+      }
+
+      // Lerp currentTime → targetTime
+      const diff = entry.targetTime - video.currentTime;
+      if (Math.abs(diff) > 0.04) {
+        try { video.currentTime += diff * LERP; } catch (_) {/* ignore */}
+      } else if (Math.abs(diff) > 0.005) {
+        try { video.currentTime = entry.targetTime; } catch (_) {/* ignore */}
       }
     });
 
-    if (needsUpdate) {
-      rafId = requestAnimationFrame(onTick);
-    } else {
-      rafId = null;
-    }
-  };
+    requestAnimationFrame(tick);   // always keep running
+  }
 
-  const onScroll = () => {
-    if (!rafId) rafId = requestAnimationFrame(onTick);
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  /* Initial paint */
-  rafId = requestAnimationFrame(onTick);
+  requestAnimationFrame(tick);
 
 })();
 

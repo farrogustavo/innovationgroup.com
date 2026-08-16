@@ -2909,7 +2909,7 @@ body {
    The sticky inner stays fixed in the viewport while scrolling */
 .scroll-video-scene {
   position: relative;
-  height: 350vh;          /* scroll travel distance */
+  height: 250vh;          /* scroll travel distance — ajustado para velocidad amigable */
 }
 
 /* Sticky viewport – fills the full window height */
