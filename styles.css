@@ -42,13 +42,13 @@ a {
   inset: 0 0 auto;
   z-index: 50;
   color: var(--ink);
-  /* Sin fondo en ningún estado — solo logo y letras visibles */
+  /* Sin fondo en ningÃºn estado â€” solo logo y letras visibles */
   background: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
 }
 
-/* Fondo al hacer scroll eliminado — header siempre transparente */
+/* Fondo al hacer scroll eliminado â€” header siempre transparente */
 .site-header.is-scrolled {
   background: transparent;
   box-shadow: none;
@@ -77,9 +77,9 @@ a {
   padding: 14px clamp(18px, 5vw, 72px);
 }
 
-/* ── Logo del navbar: COMPLETAMENTE SEPARADO del panel ── */
-/* La franja negra siempre mide lo mismo porque height está fijo.  */
-/* Para hacer el logo más grande: sube solo el valor de "width".   */
+/* â”€â”€ Logo del navbar: COMPLETAMENTE SEPARADO del panel â”€â”€ */
+/* La franja negra siempre mide lo mismo porque height estÃ¡ fijo.  */
+/* Para hacer el logo mÃ¡s grande: sube solo el valor de "width".   */
 /* El nav NO se estira porque height: 70px es inamovible.          */
 .brand {
   flex-shrink: 0;
@@ -95,13 +95,13 @@ a {
   mix-blend-mode: screen; /* elimina el fondo negro de la imagen JPG */
 }
 
-/* ── Logo estándar en el resto del sitio (footer, páginas internas) ── */
+/* â”€â”€ Logo estÃ¡ndar en el resto del sitio (footer, pÃ¡ginas internas) â”€â”€ */
 .site-logo {
   width: 160px;
   height: auto;
   object-fit: contain;
   display: block;
-  mix-blend-mode: screen; /* elimina el fondo negro de la imagen JPG también en footer y otras páginas */
+  mix-blend-mode: screen; /* elimina el fondo negro de la imagen JPG tambiÃ©n en footer y otras pÃ¡ginas */
 }
 
 .nav-links {
@@ -441,7 +441,7 @@ h3 {
 }
 
 .back-image {
-  top: 0;
+
   right: 0;
   animation-delay: -1.4s;
 }
@@ -977,9 +977,9 @@ h3 {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   FONT OVERRIDE â€” Inter + Outfit
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+   FONT OVERRIDE Ã¢â‚¬â€ Inter + Outfit
+Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 body {
   font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
@@ -991,9 +991,9 @@ h4 {
   font-family: 'Outfit', Arial, Helvetica, sans-serif;
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   ABOUT US SECTION â€” INDEX PAGE
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+   ABOUT US SECTION Ã¢â‚¬â€ INDEX PAGE
+Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .about-us-section {
   background: var(--navy);
   color: #ffffff;
@@ -1790,9 +1790,9 @@ h4 {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   QUICK CONTACT â€” 4 columns
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+   QUICK CONTACT Ã¢â‚¬â€ 4 columns
+Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .quick-contact--4col {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -1809,11 +1809,11 @@ h4 {
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   BRAND LOGO GRID â€” Associations & Certificates
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+   BRAND LOGO GRID Ã¢â‚¬â€ Associations & Certificates
    All cards are identical size, image is
    contained (never cropped) inside the card.
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .associations-section,
 .certificates-section {
   padding: clamp(56px, 7vw, 96px) clamp(18px, 5vw, 72px);
@@ -1907,19 +1907,19 @@ h4 {
   }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   COMPREHENSIVE MOBILE RESPONSIVE â€” Production Polish
-   Target: identical visual quality on 320pxâ€“1440px+ screens
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   COMPREHENSIVE MOBILE RESPONSIVE Ã¢â‚¬â€ Production Polish
+   Target: identical visual quality on 320pxÃ¢â‚¬â€œ1440px+ screens
+Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
-/* â”€â”€ Prevent horizontal overflow globally â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Prevent horizontal overflow globally Ã¢â€â‚¬Ã¢â€â‚¬ */
 html,
 body {
   overflow-x: hidden;
   width: 100%;
 }
 
-/* â”€â”€ Quick contact: 3-col on tablet, 2-col on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Quick contact: 3-col on tablet, 2-col on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .quick-contact--4col {
     grid-template-columns: repeat(2, 1fr);
@@ -1942,14 +1942,14 @@ body {
   }
 }
 
-/* â”€â”€ Topline: hide on very small screens â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Topline: hide on very small screens Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 480px) {
   .topline {
     display: none;
   }
 }
 
-/* â”€â”€ Nav logo sizing â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Nav logo sizing Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 400px) {
   .brand img {
     max-width: 120px;
@@ -1957,7 +1957,7 @@ body {
   }
 }
 
-/* â”€â”€ Hero: proper stacking on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Hero: proper stacking on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .hero {
     min-height: 100svh;
@@ -1994,7 +1994,7 @@ body {
   }
 }
 
-/* â”€â”€ Section padding tighter on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Section padding tighter on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 600px) {
   .section {
     padding: 56px 20px;
@@ -2016,7 +2016,7 @@ body {
   }
 }
 
-/* â”€â”€ Intro grid: stack on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Intro grid: stack on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .intro-grid {
     grid-template-columns: 1fr;
@@ -2024,7 +2024,7 @@ body {
   }
 }
 
-/* â”€â”€ Section heading split: always stack â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Section heading split: always stack Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
   .section-heading.split {
     grid-template-columns: 1fr;
@@ -2032,7 +2032,7 @@ body {
   }
 }
 
-/* â”€â”€ Services grid â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Services grid Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .service-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -2049,7 +2049,7 @@ body {
   }
 }
 
-/* â”€â”€ Process grid â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Process grid Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -2062,7 +2062,7 @@ body {
   }
 }
 
-/* â”€â”€ Feature band (Design-Build) â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Feature band (Design-Build) Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
   .feature-band {
     grid-template-columns: 1fr;
@@ -2086,7 +2086,7 @@ body {
   }
 }
 
-/* â”€â”€ Gallery â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Gallery Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .gallery {
     grid-template-columns: 1fr;
@@ -2102,7 +2102,7 @@ body {
   }
 }
 
-/* â”€â”€ Stats: 1 column on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Stats: 1 column on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 600px) {
   .stats {
     grid-template-columns: 1fr;
@@ -2115,7 +2115,7 @@ body {
   }
 }
 
-/* â”€â”€ Location grid â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Location grid Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
   .location-grid {
     grid-template-columns: 1fr;
@@ -2130,7 +2130,7 @@ body {
   }
 }
 
-/* â”€â”€ Contact panel (booking form) â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Contact panel (booking form) Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
   .contact-panel {
     grid-template-columns: 1fr;
@@ -2157,7 +2157,7 @@ body {
   }
 }
 
-/* â”€â”€ Social contact grid (in contact section) â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Social contact grid (in contact section) Ã¢â€â‚¬Ã¢â€â‚¬ */
 .social-contact-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2213,7 +2213,7 @@ body {
   margin-bottom: 2px;
 }
 
-/* â”€â”€ Social dock: hide on mobile, show as bar â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Social dock: hide on mobile, show as bar Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
   .social-dock {
     position: static;
@@ -2227,7 +2227,7 @@ body {
   }
 }
 
-/* â”€â”€ Field video section â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Field video section Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .field-video-section {
     grid-template-columns: 1fr;
@@ -2239,7 +2239,7 @@ body {
   }
 }
 
-/* â”€â”€ Cinematic carousel â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Cinematic carousel Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 600px) {
   .cinematic-slide {
     height: clamp(280px, 80vw, 420px);
@@ -2271,7 +2271,7 @@ body {
   }
 }
 
-/* â”€â”€ Home carousel caption â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Home carousel caption Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 600px) {
   .home-carousel-slide {
     height: clamp(300px, 80vw, 420px);
@@ -2282,7 +2282,7 @@ body {
   }
 }
 
-/* â”€â”€ Footer â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Footer Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 480px) {
   .footer {
     padding: 36px 20px;
@@ -2293,7 +2293,7 @@ body {
   }
 }
 
-/* â”€â”€ About index grid on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ About index grid on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .about-index-grid {
     grid-template-columns: 1fr;
@@ -2301,7 +2301,7 @@ body {
   }
 }
 
-/* â”€â”€ Trust bar on mobile â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Trust bar on mobile Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 760px) {
   .about-trust-bar {
     grid-template-columns: repeat(2, 1fr);
@@ -2315,7 +2315,7 @@ body {
   }
 }
 
-/* â”€â”€ Brand logo grid: always 2 col on very small phones â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Brand logo grid: always 2 col on very small phones Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 360px) {
   .brand-logo-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -2328,7 +2328,7 @@ body {
   }
 }
 
-/* â”€â”€ Typography floor on smallest phones â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Typography floor on smallest phones Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 380px) {
   h2 {
     font-size: clamp(28px, 9vw, 38px);
@@ -2343,7 +2343,7 @@ body {
   }
 }
 
-/* â”€â”€ Touch target minimum size (accessibility) â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Touch target minimum size (accessibility) Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 900px) {
 
   .button,
@@ -2356,39 +2356,39 @@ body {
   }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
    SCROLL-SCRUBBED VIDEO SECTIONS
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   â€¢ .scroll-video-scene  â†’ 300 vh tall (gives scroll room)
-   â€¢ .scroll-video-sticky â†’ position:sticky, 100 vh
+   Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+   Ã¢â‚¬Â¢ .scroll-video-scene  Ã¢â€ â€™ 300 vh tall (gives scroll room)
+   Ã¢â‚¬Â¢ .scroll-video-sticky Ã¢â€ â€™ position:sticky, 100 vh
      (stays pinned in viewport while user scrolls through)
-   â€¢ JS maps scroll progress 0â†’1 to video.currentTime
-   â€¢ Scrolling back rewinds the video â€” fully bidirectional
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   Ã¢â‚¬Â¢ JS maps scroll progress 0Ã¢â€ â€™1 to video.currentTime
+   Ã¢â‚¬Â¢ Scrolling back rewinds the video Ã¢â‚¬â€ fully bidirectional
+   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
 .scroll-video-scene {
   position: relative;
   /* Break out of any padded/constrained parent */
-  width: 100vw;
+  height: 500vh;`n
   margin-left: calc(50% - 50vw);
 }
 
 .scroll-video-sticky {
-  position: relative;
-  width: 100vw;
-  height: auto;
+  position: sticky;`n
+
+  height: 100vh;
   overflow: hidden;
   background: #000;
 }
 
-/* â”€â”€ Video: full-resolution cover, no letterboxing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Video: full-resolution cover, no letterboxing Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
    object-fit:cover maintains the video's native aspect ratio
-   and scales it up to fill the container â€” exactly the same
+   and scales it up to fill the container Ã¢â‚¬â€ exactly the same
    quality as the source file, just cropped on the edges.    */
 .scroll-video-el {
   background: #000;
   position: relative;
-  width: 100vw;
+
   height: 100vh;
   margin: 0;
   border-radius: 0;
@@ -2399,7 +2399,7 @@ body {
   filter: brightness(1.15) contrast(1.12) saturate(1.08);
 }
 
-/* â”€â”€ Overlays â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Overlays Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .scroll-video-overlay {
   position: absolute;
   inset: 0;
@@ -2415,7 +2415,7 @@ body {
     linear-gradient(0deg, rgba(5, 8, 12, 0.78) 0%, rgba(5, 8, 12, 0.22) 42%, rgba(5, 8, 12, 0.10) 100%);
 }
 
-/* â”€â”€ Text content layer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Text content layer Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .scroll-video-content {
   position: absolute;
   z-index: 2;
@@ -2442,7 +2442,7 @@ body {
   }
 }
 
-/* â”€â”€ Hero info card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Hero info card Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .scroll-video-sticky .hero-card {
   position: absolute;
   right: clamp(20px, 5vw, 64px);
@@ -2458,7 +2458,7 @@ body {
   color: #fff;
 }
 
-/* â”€â”€ Progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Progress bar Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .scroll-video-progress {
   position: absolute;
   bottom: 0;
@@ -2476,7 +2476,7 @@ body {
   transition: width 0.04s linear;
 }
 
-/* â”€â”€ Scroll hint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Scroll hint Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 .scroll-video-hint {
   position: absolute;
   bottom: 24px;
@@ -2516,7 +2516,7 @@ body {
   }
 }
 
-/* â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 700px) {
 
   .scroll-video-content {
@@ -2546,7 +2546,7 @@ body {
   filter: brightness(1.15) contrast(1.12) saturate(1.08);
 }
 
-/* ─── SERVICE GRID: 3-column layout ─────── */
+/* â”€â”€â”€ SERVICE GRID: 3-column layout â”€â”€â”€â”€â”€â”€â”€ */
 .service-grid--3col {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -2563,7 +2563,7 @@ body {
   }
 }
 
-/* ─── SERVICE CARD LINK BUTTON ──────────── */
+/* â”€â”€â”€ SERVICE CARD LINK BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .service-card-link {
   display: inline-flex;
   align-items: center;
@@ -2585,7 +2585,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ─── SERVICES SECTION: dark background, white text ─ */
+/* â”€â”€â”€ SERVICES SECTION: dark background, white text â”€ */
 .services {
   background: #111923 !important;
   color: #fff;
@@ -2623,7 +2623,7 @@ body {
   border: 1px solid rgba(243, 107, 33, 0.38);
 }
 
-/* ─── ABOUT HERO: video background ─────── */
+/* â”€â”€â”€ ABOUT HERO: video background â”€â”€â”€â”€â”€â”€â”€ */
 .about-hero-video-wrap {
   position: absolute;
   inset: 0;
@@ -2643,14 +2643,14 @@ body {
 
 .about-hero.has-video {
   background: #060a0f !important;
-  width: 100vw;
+
   margin-left: 0;
 }
 
-/* ─── SERVICE DETAIL PAGE ───────────────── */
+/* â”€â”€â”€ SERVICE DETAIL PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .service-detail-hero {
   position: relative;
-  width: 100vw;
+
   margin-left: calc(50% - 50vw);
   min-height: 100vh;
   display: flex;
@@ -2821,7 +2821,7 @@ body {
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-/* ─── DARK TEXT OVERRIDES for light-background sections ─ */
+/* â”€â”€â”€ DARK TEXT OVERRIDES for light-background sections â”€ */
 /* Booking form fields have white background, need dark text */
 .booking-form label span {
   color: #1a2533 !important;
@@ -2900,3 +2900,132 @@ body {
 }
 
 /* Gallery item figcaption already has dark semi-transparent bg so white text is ok */
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL-VIDEO ENGINE  — hero scrubbed by scroll
+   ════════════════════════════════════════════════════════════ */
+
+/* Scene container: tall enough to give scroll room (350vh)
+   The sticky inner stays fixed in the viewport while scrolling */
+.scroll-video-scene {
+  position: relative;
+  height: 350vh;          /* scroll travel distance */
+}
+
+/* Sticky viewport – fills the full window height */
+.scroll-video-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Full-bleed video */
+.scroll-video-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+}
+
+/* Dark overlay for text readability */
+.scroll-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 9, 14, 0.55) 0%,
+    rgba(6, 9, 14, 0.25) 50%,
+    rgba(6, 9, 14, 0.70) 100%
+  );
+  pointer-events: none;
+}
+
+.scroll-video-overlay--subtle {
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 9, 14, 0.35) 0%,
+    rgba(6, 9, 14, 0.10) 50%,
+    rgba(6, 9, 14, 0.55) 100%
+  );
+}
+
+/* Content layer (hero text, CTAs) */
+.scroll-video-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 6vw, 100px);
+  z-index: 2;
+}
+
+.scroll-video-content--bottom {
+  justify-content: flex-end;
+  padding-bottom: clamp(48px, 8vh, 120px);
+}
+
+/* ── Progress bar ──────────────────────────────────────────── */
+.scroll-video-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 10;
+}
+
+.scroll-video-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--orange, #f36b21);
+  transition: width 0.05s linear;
+  box-shadow: 0 0 8px rgba(243, 107, 33, 0.6);
+}
+
+/* ── Scroll hint (mouse icon + label) ─────────────────────── */
+.scroll-video-hint {
+  position: absolute;
+  bottom: clamp(28px, 5vh, 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.scroll-hint-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: 'Inter', sans-serif;
+}
+
+.scroll-hint-arrow svg {
+  display: block;
+}
+
+/* Bouncing dot inside the mouse SVG */
+.scroll-hint-dot {
+  animation: scrollDotBounce 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes scrollDotBounce {
+  0%   { cy: 8; opacity: 1; }
+  50%  { cy: 17; opacity: 0.4; }
+  100% { cy: 8; opacity: 1; }
+}
+

@@ -246,7 +246,8 @@ if (heroCarousel) {
   });
 
   /* ── Scrub a single scene based on current scroll ─────── */
-  function scrubScene({ scene, video, progressBar, hint, isSeekable }) {
+  function scrubScene(entry) {
+    const { scene, video, progressBar, hint, isSeekable } = entry;
     if (!isSeekable())                      return;
     if (!isFinite(video.duration) || video.duration <= 0) return;
 
@@ -342,6 +343,7 @@ if (heroCarousel) {
 })();
 
 (function slowDownVideos() {
-  const videos = document.querySelectorAll('.scroll-video-el');
+  // Only slow down videos that are NOT scroll-scrubbed (autoplay decorative ones)
+  const videos = document.querySelectorAll('.scroll-video-el:not([data-scroll-video])');
   videos.forEach(v => { v.playbackRate = 0.4; });
 })();
