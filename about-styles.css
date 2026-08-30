@@ -8,6 +8,16 @@
   font-family: 'Inter', Arial, Helvetica, sans-serif;
 }
 
+/* ─── DARK PAGE GLOBAL ───────────────────── */
+.dark-page {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.dark-page main {
+  background: #000;
+}
+
 .detail-page h1,
 .detail-page h2,
 .detail-page h3,
@@ -38,15 +48,19 @@
 }
 
 .mission-hero {
-  background:
-    linear-gradient(135deg, rgba(243,107,33,0.85) 0%, rgba(12,17,24,0.95) 65%),
-    url('electrical-panel-work.jpg') center / cover no-repeat;
+  background: #060a0f !important;
+}
+
+.mission-hero.has-video {
+  background: #060a0f !important;
 }
 
 .vision-hero {
-  background:
-    linear-gradient(135deg, rgba(12,17,24,0.92) 0%, rgba(243,107,33,0.6) 100%),
-    url('interior-kitchen.png') center / cover no-repeat;
+  background: #060a0f !important;
+}
+
+.vision-hero.has-video {
+  background: #060a0f !important;
 }
 
 .detail-hero-overlay {
@@ -186,7 +200,8 @@
 /* ─── DETAIL CONTENT SECTION ─────────────── */
 .detail-content-section {
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
-  background: var(--paper);
+  background: #000;
+  color: #fff;
 }
 
 .detail-content-grid {
@@ -202,19 +217,20 @@
   font-size: clamp(32px, 4.5vw, 56px);
   line-height: 1.02;
   margin-bottom: 24px;
+  color: #fff;
 }
 
 .detail-text p {
   font-size: 17px;
   line-height: 1.7;
-  color: var(--muted);
+  color: rgba(255,255,255,0.75);
   margin-bottom: 18px;
 }
 
 .mission-statement {
   font-size: 19px !important;
   font-weight: 600 !important;
-  color: var(--ink) !important;
+  color: rgba(255,255,255,0.95) !important;
   border-left: 4px solid var(--orange);
   padding-left: 20px;
   margin-bottom: 24px !important;
@@ -285,17 +301,18 @@
 }
 
 .pillar-card {
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 6px 24px rgba(12,17,24,0.07);
-  transition: transform 250ms ease, box-shadow 250ms ease;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
 }
 
 .pillar-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 40px rgba(12,17,24,0.12);
+  box-shadow: 0 14px 40px rgba(243,107,33,0.2);
+  border-color: rgba(243,107,33,0.4);
 }
 
 .pillar-icon {
@@ -303,17 +320,23 @@
   margin-bottom: 12px;
 }
 
+.pillar-svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--orange);
+}
+
 .pillar-card h4 {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 8px;
-  color: var(--ink);
+  color: #fff;
 }
 
 .pillar-card p {
   font-size: 14px !important;
   line-height: 1.55;
-  color: var(--muted) !important;
+  color: rgba(255,255,255,0.65) !important;
   margin: 0 !important;
 }
 
@@ -379,16 +402,16 @@
   gap: 20px;
   align-items: flex-start;
   padding: 20px;
-  background: var(--white);
+  background: #111;
   border-radius: 12px;
-  border: 1px solid var(--line);
-  box-shadow: 0 4px 16px rgba(12,17,24,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   transition: transform 250ms ease, border-color 250ms ease;
 }
 
 .vision-goal:hover {
   transform: translateX(6px);
-  border-color: rgba(243,107,33,0.4);
+  border-color: rgba(243,107,33,0.5);
 }
 
 .goal-number {
@@ -398,8 +421,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--ink);
-  color: var(--amber);
+  background: var(--orange);
+  color: #fff;
   border-radius: 50%;
   font-weight: 900;
   font-size: 14px;
@@ -409,13 +432,13 @@
   font-size: 17px;
   font-weight: 700;
   margin-bottom: 6px;
-  color: var(--ink);
+  color: #fff;
 }
 
 .goal-content p {
   font-size: 14px !important;
   line-height: 1.55;
-  color: var(--muted) !important;
+  color: rgba(255,255,255,0.65) !important;
   margin: 0 !important;
 }
 
@@ -519,11 +542,11 @@
 /* ─── CAROUSEL ──────────────────────────── */
 .carousel-section {
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
-  background: var(--white);
+  background: #000;
 }
 
 .carousel-section.carousel-dark {
-  background: var(--navy);
+  background: #0a0a0a;
 }
 
 .carousel-section.carousel-dark .carousel-header p,
@@ -539,6 +562,11 @@
 .carousel-header h2 {
   font-size: clamp(32px, 4.5vw, 54px);
   margin-bottom: 0;
+  color: #fff;
+}
+
+.carousel-section .carousel-header p {
+  color: var(--amber);
 }
 
 .carousel-wrapper {
@@ -630,7 +658,7 @@
 /* ─── VIDEO SECTION ─────────────────────── */
 .video-section {
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
-  background: var(--paper);
+  background: #000;
 }
 
 .video-section-header {
@@ -641,6 +669,94 @@
 .video-section-header h2 {
   font-size: clamp(32px, 4.5vw, 54px);
   margin-bottom: 0;
+  color: #fff;
+}
+
+.video-section-header p {
+  color: var(--amber);
+}
+
+/* ─── VIDEO GALLERY (replaces carousel) ─── */
+.video-gallery-section {
+  padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
+  background: #0a0a0a;
+}
+
+.video-gallery-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.video-gallery-header p {
+  color: var(--amber);
+}
+
+.video-gallery-header h2 {
+  font-size: clamp(32px, 4.5vw, 54px);
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.video-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.video-gallery-item {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 0 20px 56px rgba(0,0,0,0.6);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.video-gallery-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 72px rgba(243,107,33,0.2);
+}
+
+.video-gallery-item video {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+}
+
+.video-gallery-caption {
+  padding: 18px 20px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.video-gallery-caption strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.video-gallery-caption span {
+  display: block;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .video-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  .video-gallery-item video {
+    height: 260px;
+  }
 }
 
 .video-grid {
@@ -759,7 +875,8 @@
 @media (max-width: 900px) {
   .about-cards-wrapper,
   .detail-content-grid,
-  .video-grid {
+  .video-grid,
+  .video-gallery-grid {
     grid-template-columns: 1fr;
   }
 
