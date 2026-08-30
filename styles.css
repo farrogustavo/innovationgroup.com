@@ -337,6 +337,18 @@ h3 {
   font-size: 17px;
 }
 
+.feature-band .feature-copy p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.feature-band .feature-copy h2 {
+  color: #fff;
+}
+
+.feature-band .eyebrow {
+  color: var(--amber);
+}
+
 .section-heading {
   width: min(800px, 100%);
   margin-bottom: 42px;
@@ -378,8 +390,8 @@ h3 {
 .feature-band {
   min-height: 760px;
   padding: clamp(72px, 9vw, 120px) clamp(18px, 5vw, 72px);
-  background: var(--ink);
-  color: #111923;
+  background: #000;
+  color: #fff;
   overflow: hidden;
 }
 
