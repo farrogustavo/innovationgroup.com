@@ -17,13 +17,34 @@
 .about-card-icon { display:inline-grid; width:64px; height:64px; place-items:center; border-radius:10px; background:rgba(243,107,33,.18); border:1px solid rgba(243,107,33,.42); color:var(--amber); }
 .icon-svg, .about-card-icon .aic-svg { width:28px; height:28px; fill:currentColor; }
 .pillar-svg { width:28px; height:28px; fill:currentColor; }
-.detail-content-section { background:linear-gradient(180deg, #f8fafb 0%, #eef2f5 100%); }
-.detail-text h2 { max-width:840px; }
+.detail-content-section { background:#000 !important; color:#fff; }
+.detail-text h2 { max-width:840px; color:#fff; }
 .detail-side > * { border-radius:8px; box-shadow:0 34px 80px rgba(3,8,14,.25); }
 .story-highlight-card, .mission-stat-card, .vision-horizon-card { overflow:hidden; }
-.story-highlight-card::after, .mission-stat-card::after, .vision-horizon-card::after { content:""; display:block; height:180px; margin:30px -32px -36px; background:linear-gradient(rgba(12,17,24,.18), rgba(12,17,24,.82)), url('img/whatsapp-team.jpg') center/cover; }
-.mission-stat-card::after { background-image:linear-gradient(rgba(12,17,24,.08), rgba(12,17,24,.82)), url('electrical-panel-work.jpg'); }
-.vision-horizon-card::after { background-image:linear-gradient(rgba(12,17,24,.08), rgba(12,17,24,.82)), url('interior-kitchen.png'); }
+.story-highlight-card::after { content:""; display:block; height:180px; margin:30px -32px -36px; background:linear-gradient(rgba(12,17,24,.18), rgba(12,17,24,.82)), url('img/whatsapp-team.jpg') center/cover; }
+/* mission-stat-card and vision-horizon-card use embedded video instead of ::after image */
+
+/* ── Card Video Block (Mission + Vision) ── */
+.card-video-block {
+  margin: 28px -32px -36px;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  height: 200px;
+  position: relative;
+}
+.card-video-block video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.82);
+}
+.card-video-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+}
 .carousel-section { background:#080b10; color:#fff; }
 .carousel-section:nth-of-type(even) { background:#101822; }
 .carousel-header .eyebrow, .video-section-header .eyebrow { color:var(--amber); }
