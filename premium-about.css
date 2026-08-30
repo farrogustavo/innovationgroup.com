@@ -45,6 +45,26 @@
   inset: 0;
   background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
 }
+
+/* ── Full Video Card (replaces all card content) ── */
+.card-fullvideo {
+  position: relative;
+  overflow: hidden;
+  padding: 0 !important;
+  min-height: 480px;
+  border-radius: 8px;
+}
+.card-fullvideo::after {
+  display: none !important;
+}
+.card-fullvideo video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .carousel-section { background:#080b10; color:#fff; }
 .carousel-section:nth-of-type(even) { background:#101822; }
 .carousel-header .eyebrow, .video-section-header .eyebrow { color:var(--amber); }
