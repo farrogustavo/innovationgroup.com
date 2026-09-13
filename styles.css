@@ -2380,14 +2380,13 @@ body {
 
 .scroll-video-scene {
   position: relative;
-  /* Break out of any padded/constrained parent */
-  height: 500vh;`n
+  height: 500vh;
   margin-left: calc(50% - 50vw);
 }
 
 .scroll-video-sticky {
-  position: sticky;`n
-
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
   background: #000;
@@ -2921,7 +2920,7 @@ body {
    The sticky inner stays fixed in the viewport while scrolling */
 .scroll-video-scene {
   position: relative;
-  height: 100vh;          /* Adjusted to viewport height since scroll-scrub is off */
+  height: 500vh;   /* espacio de scroll para scrubbing del video */
 }
 
 /* Sticky viewport – fills the full window height */

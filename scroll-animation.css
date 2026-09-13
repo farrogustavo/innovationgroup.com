@@ -2,12 +2,9 @@
    All scroll-interpolated properties are controlled via JS.
    CSS only defines structure, initial states, and non-scroll fx. */
 
-/* Hero video: will-change + initial scale for zoom-in effect */
-.scroll-video-scene:first-of-type .scroll-video-el {
-  transform-origin: center center;
-  will-change: transform, filter;
-  transform: scale(0.88) translateY(0px);
-}
+/* Hero video: DO NOT set transform here — the scroll-scrub engine
+   in script.js controls this video's currentTime via scroll position.
+   CSS will-change is still set for the overlay and content layers. */
 
 .scroll-video-scene:first-of-type .scroll-video-content {
   will-change: opacity, transform;

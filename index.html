@@ -62,13 +62,12 @@
     </header>
 
     <main>
-      <!-- HERO: cinematic scroll-driven scene -->
-      <div class="scroll-video-scene" id="home">
+      <!-- HERO: scroll-scrubbed video — avanza con el scroll del usuario -->
+      <div class="scroll-video-scene" id="home" data-scroll-video-scene="hero">
         <div class="scroll-video-sticky">
           <video
             class="scroll-video-el"
-            autoplay
-            loop
+            data-scroll-video="hero"
             muted
             playsinline
             preload="auto"
@@ -93,6 +92,7 @@
           </div>
         </div>
       </div>
+
 
       <section class="quick-contact quick-contact--4col" aria-label="Quick contact">
         <a href="tel:6159308522"><span>Office</span>(615) 930-8522</a>

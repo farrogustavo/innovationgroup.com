@@ -189,18 +189,11 @@
 
     const p = ease(rawProgress);
 
-    /* Video: zoom 0.88 -> 1.06, parallax Y: 0 -> +80px */
-    const targetVideoScale = map(p, 0, 0.65, 0.88, 1.06);
-    const targetVideoY     = map(p, 0, 1, 0, 80);
+    /* NOTE: heroVideo transform is NOT set here.
+       The scroll-scrub engine in script.js drives video.currentTime.
+       We only animate the content overlay layers. */
 
-    currentVideoScale = lerp(currentVideoScale, targetVideoScale, LERP_SPEED);
-    currentVideoY     = lerp(currentVideoY,     targetVideoY,     LERP_SPEED);
-
-    if (heroVideo) {
-      heroVideo.style.transform = `scale(${currentVideoScale.toFixed(4)}) translateY(${currentVideoY.toFixed(2)}px)`;
-    }
-
-    /* Overlay: alpha 0.0 -> 0.55 as user exits hero */
+    /* Overlay: alpha increases as user exits hero */
     const targetOverlayOp = map(p, 0.35, 0.85, 0, 0.55);
     currentOverlayOp = lerp(currentOverlayOp, targetOverlayOp, LERP_SPEED * 0.7);
     if (heroOverlay) {
