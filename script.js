@@ -204,29 +204,28 @@ if (heroCarousel) {
   if (!scene || !video) return;
 
   /* ── Configuración ───────────────────────────────────────── */
-  const DURATION      = parseFloat(video.dataset.duration) || 88;
-  // Cuánto avanza el video por px de wheel delta (ajustar a gusto)
-  // 2500px de delta total = video completo
-  const SENSITIVITY   = 1 / 2500;
-  const LERP_SPEED    = 0.12;  // suavidad del seeking
+  const DURATION   = parseFloat(video.dataset.duration) || 88;
+  // 7000px de delta total = video completo  (más lento = más cinematográfico)
+  const SENSITIVITY = 1 / 7000;
+  const LERP_SPEED  = 0.10;
 
-  /* ── Estado ──────────────────────────────────────────────── */
-  let progress        = 0;   // 0 → 1
-  let currentTime     = 0;   // tiempo lerpeado
-  let targetTime      = 0;
-  let videoReady      = false;
-  let pageUnlocked    = false;
-  let touchStartY     = 0;
-  let isSeeking       = false;
+  /* ── Estado (mutable, se resetea al volver al top) ──────── */
+  let progress     = 0;
+  let currentTime  = 0;
+  let targetTime   = 0;
+  let videoReady   = false;
+  let pageUnlocked = false;
+  let touchStartY  = 0;
+  let isSeeking    = false;
 
-  // Compartir progreso con scroll-animation.js
   window.__heroProgress = 0;
 
-  /* ── Bloquear scroll de página ───────────────────────────── */
-  document.documentElement.style.overflow = 'hidden';
-  document.body.style.overflow            = 'hidden';
-  // Asegurar que la página esté al tope
-  window.scrollTo(0, 0);
+  /* ── Bloquear scroll ─────────────────────────────────────── */
+  function lockScroll() {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow            = 'hidden';
+    window.scrollTo(0, 0);
+  }
 
   /* ── Desbloquear scroll ──────────────────────────────────── */
   function unlockPage() {
@@ -236,11 +235,36 @@ if (heroCarousel) {
     document.documentElement.style.overflow = '';
     document.body.style.overflow            = '';
 
-    // Hacer un scroll suave al primer contenido después del hero
+    // Scroll suave al siguiente contenido
     const nextSection = scene.nextElementSibling;
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // ── RESET cuando el usuario vuelve al top ─────────────────
+    // Si el usuario hace scroll de regreso al inicio, reiniciamos
+    // el controlador para que el video se vuelva a reproducir.
+    window.addEventListener('scroll', function onReturnToTop() {
+      if (window.scrollY < 50) {
+        window.removeEventListener('scroll', onReturnToTop);
+        resetController();
+      }
+    }, { passive: true });
+  }
+
+  /* ── Reset completo del controlador ─────────────────────── */
+  function resetController() {
+    progress     = 0;
+    currentTime  = 0;
+    targetTime   = 0;
+    pageUnlocked = false;
+    window.__heroProgress = 0;
+
+    // Rebobinar video al inicio
+    try { video.currentTime = 0; } catch (_) {}
+
+    // Volver a bloquear scroll
+    lockScroll();
   }
 
   /* ── Desbloquear seeking en el video ─────────────────────── */
@@ -259,18 +283,19 @@ if (heroCarousel) {
     video.addEventListener(ev, tryUnlockVideo, { once: true })
   );
   if (video.readyState >= 1) tryUnlockVideo();
-  setTimeout(() => { videoReady = true; }, 3000); // fallback
+  setTimeout(() => { videoReady = true; }, 3000);
 
-  /* ── Avanzar progreso ────────────────────────────────────── */
+  // Iniciar bloqueado
+  lockScroll();
+
+  /* ── Avanzar / retroceder progreso ──────────────────────── */
   function advance(deltaY) {
     if (pageUnlocked) return;
 
-    // Scroll hacia arriba permite retroceder el video también
     progress = Math.max(0, Math.min(1, progress + deltaY * SENSITIVITY));
     targetTime = progress * DURATION;
     window.__heroProgress = progress;
 
-    // Desbloquear cuando llega al final
     if (progress >= 0.999) {
       setTimeout(unlockPage, 400);
     }
@@ -295,7 +320,7 @@ if (heroCarousel) {
     e.preventDefault();
     const deltaY = touchStartY - e.touches[0].clientY;
     touchStartY  = e.touches[0].clientY;
-    advance(deltaY * 2); // touch más sensible que wheel
+    advance(deltaY * 2);
   }, { passive: false, capture: true });
 
   /* ── Teclas ──────────────────────────────────────────────── */
@@ -303,24 +328,22 @@ if (heroCarousel) {
     if (pageUnlocked) return;
     if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
       e.preventDefault();
-      advance(80);
+      advance(150);
     }
     if (e.key === 'ArrowUp' || e.key === 'PageUp') {
       e.preventDefault();
-      advance(-80);
+      advance(-150);
     }
   });
 
-  /* ── RAF loop: lerp currentTime hacia targetTime ─────────── */
+  /* ── RAF loop: lerp currentTime → targetTime ────────────── */
   function tick() {
     if (videoReady && !isSeeking) {
       const diff = targetTime - currentTime;
       if (Math.abs(diff) > 0.03) {
         currentTime += diff * LERP_SPEED;
         isSeeking = true;
-        try {
-          video.currentTime = currentTime;
-        } catch (_) {}
+        try { video.currentTime = currentTime; } catch (_) {}
         const onSeeked = () => {
           isSeeking = false;
           video.removeEventListener('seeked', onSeeked);
@@ -333,7 +356,7 @@ if (heroCarousel) {
   }
   requestAnimationFrame(tick);
 
-  /* ── UI: barra de progreso del video ─────────────────────── */
+  /* ── Barra de progreso ───────────────────────────────────── */
   const progressFill = document.querySelector('.hero-scroll-progress-fill');
   const progressBar  = document.querySelector('.hero-scroll-progress');
 
@@ -345,6 +368,7 @@ if (heroCarousel) {
   requestAnimationFrame(updateUI);
 
 })();
+
 
 /* ── Decorative autoplay videos (non-hero) ───────────────────── */
 (function slowDownVideos() {
