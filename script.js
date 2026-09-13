@@ -187,179 +187,169 @@ if (heroCarousel) {
 }
 
 
-/* ════════════════════════════════════════════════════════════
-   SCROLL-SCRUBBED VIDEO  —  versión robusta para MP4 no-faststart
-   ─────────────────────────────────────────────────────────────
-   Soluciona el problema de WhatsApp / videos grabados en celular
-   donde video.duration = Infinity hasta que descarga completo.
-   Estrategia:
-   1. Intenta play/pause para desbloquear seeking
-   2. Usa data-duration como fallback inmediato si está presente
-   3. Polling cada 400ms hasta que la duración sea finita
-   4. RAF loop continuo que scrubea el video con lerp suave
-   ════════════════════════════════════════════════════════════ */
-(function initScrollVideos() {
+/* ════════════════════════════════════════════════════════════════
+   HERO VIDEO — WHEEL HIJACK CONTROLLER
+   ────────────────────────────────────────────────────────────────
+   • El scroll de la página queda BLOQUEADO mientras el video corre.
+   • El wheel / touch del usuario avanza el video frame a frame.
+   • Cuando el video llega al 100%, se desbloquea el scroll normal.
+   • window.__heroProgress (0–1) es leído por scroll-animation.js
+     para animar los textos en sincronía con el video.
+   ════════════════════════════════════════════════════════════════ */
+(function heroWheelController() {
+  'use strict';
 
-  const scenes = document.querySelectorAll("[data-scroll-video-scene]");
-  if (!scenes.length) return;
+  const scene = document.querySelector('[data-scroll-video-scene="hero"]');
+  const video = document.querySelector('[data-scroll-video="hero"]');
+  if (!scene || !video) return;
 
-  const entries = [];
+  /* ── Configuración ───────────────────────────────────────── */
+  const DURATION      = parseFloat(video.dataset.duration) || 88;
+  // Cuánto avanza el video por px de wheel delta (ajustar a gusto)
+  // 2500px de delta total = video completo
+  const SENSITIVITY   = 1 / 2500;
+  const LERP_SPEED    = 0.12;  // suavidad del seeking
 
-  scenes.forEach((scene) => {
-    const id          = scene.dataset.scrollVideoScene;
-    const video       = scene.querySelector(`[data-scroll-video="${id}"]`);
-    const progressBar = scene.querySelector(".scroll-video-progress-bar");
-    const hint        = scene.querySelector(`[data-scroll-hint="${id}"]`);
+  /* ── Estado ──────────────────────────────────────────────── */
+  let progress        = 0;   // 0 → 1
+  let currentTime     = 0;   // tiempo lerpeado
+  let targetTime      = 0;
+  let videoReady      = false;
+  let pageUnlocked    = false;
+  let touchStartY     = 0;
+  let isSeeking       = false;
 
-    if (!video) return;
+  // Compartir progreso con scroll-animation.js
+  window.__heroProgress = 0;
 
-    // Forzar atributos críticos
-    video.muted        = true;
-    video.playsInline  = true;
-    video.preload      = "auto";
-    video.setAttribute("muted", "");
-    video.setAttribute("playsinline", "");
+  /* ── Bloquear scroll de página ───────────────────────────── */
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow            = 'hidden';
+  // Asegurar que la página esté al tope
+  window.scrollTo(0, 0);
 
-    const entry = {
-      scene,
-      video,
-      progressBar,
-      hint,
-      targetTime  : 0,
-      ready       : false,  // true cuando tenemos duración válida
-      duration    : 0,
-      seeking     : false,
-    };
-    entries.push(entry);
+  /* ── Desbloquear scroll ──────────────────────────────────── */
+  function unlockPage() {
+    if (pageUnlocked) return;
+    pageUnlocked = true;
 
-    /* ── Paso 1: obtener duración ─────────────────────────────
-       Si data-duration está en el HTML, úsalo de inmediato.
-       Si no, espera a que video.duration sea finito.         */
-    if (video.hasAttribute("data-duration")) {
-      entry.duration = parseFloat(video.dataset.duration);
-      if (entry.duration > 0) entry.ready = true;
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow            = '';
+
+    // Hacer un scroll suave al primer contenido después del hero
+    const nextSection = scene.nextElementSibling;
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
 
-    /* ── Paso 2: desbloquear seeking ─────────────────────────
-       Los navegadores bloquean seeking hasta que se reproduce
-       al menos un frame. play()+pause() desbloquea el seeking. */
-    function tryUnlock() {
-      const p = video.play();
-      if (p && p.then) {
-        p.then(() => {
-          video.pause();
-          video.currentTime = 0;
-        }).catch(() => {
-          // Autoplay bloqueado — igual intentamos seeking directo
-        });
-      } else {
-        video.pause();
-        video.currentTime = 0;
-      }
+  /* ── Desbloquear seeking en el video ─────────────────────── */
+  function tryUnlockVideo() {
+    if (videoReady) return;
+    const p = video.play();
+    if (p && p.then) {
+      p.then(() => { video.pause(); video.currentTime = 0; videoReady = true; })
+       .catch(() => { videoReady = true; });
+    } else {
+      video.pause(); video.currentTime = 0; videoReady = true;
     }
+  }
 
-    // Disparar unlock cuando hay metadata
-    ["loadedmetadata", "loadeddata", "canplay"].forEach((ev) => {
-      video.addEventListener(ev, tryUnlock, { once: true });
-    });
-    if (video.readyState >= 1) tryUnlock();
+  ['loadedmetadata', 'loadeddata', 'canplay'].forEach(ev =>
+    video.addEventListener(ev, tryUnlockVideo, { once: true })
+  );
+  if (video.readyState >= 1) tryUnlockVideo();
+  setTimeout(() => { videoReady = true; }, 3000); // fallback
 
-    /* ── Paso 3: polling de duración ─────────────────────────
-       Para MP4 no-faststart (WhatsApp, grabaciones de celular)
-       video.duration = Infinity hasta que descarga completo.
-       Revisamos cada 500ms hasta que sea un número finito.  */
-    if (!entry.ready) {
-      const durationPoller = setInterval(() => {
-        const d = video.duration;
-        if (isFinite(d) && d > 0) {
-          entry.duration = d;
-          entry.ready    = true;
-          clearInterval(durationPoller);
-        }
-      }, 500);
+  /* ── Avanzar progreso ────────────────────────────────────── */
+  function advance(deltaY) {
+    if (pageUnlocked) return;
 
-      // Fallback final: después de 10s asumimos la duración por archivo
-      // (el video sigue descargando en background pero podemos scrubear
-      //  la parte ya descargada)
-      setTimeout(() => {
-        if (!entry.ready) {
-          // Intentar una última vez con el valor actual
-          const d = video.duration;
-          entry.duration = (isFinite(d) && d > 0) ? d : 60; // 60s fallback
-          entry.ready    = true;
-          clearInterval(durationPoller);
-        }
-      }, 10000);
+    // Scroll hacia arriba permite retroceder el video también
+    progress = Math.max(0, Math.min(1, progress + deltaY * SENSITIVITY));
+    targetTime = progress * DURATION;
+    window.__heroProgress = progress;
+
+    // Desbloquear cuando llega al final
+    if (progress >= 0.999) {
+      setTimeout(unlockPage, 400);
+    }
+  }
+
+  /* ── Wheel ───────────────────────────────────────────────── */
+  window.addEventListener('wheel', (e) => {
+    if (pageUnlocked) return;
+    e.preventDefault();
+    e.stopPropagation();
+    advance(e.deltaY);
+  }, { passive: false, capture: true });
+
+  /* ── Touch ───────────────────────────────────────────────── */
+  window.addEventListener('touchstart', (e) => {
+    if (pageUnlocked) return;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (pageUnlocked) return;
+    e.preventDefault();
+    const deltaY = touchStartY - e.touches[0].clientY;
+    touchStartY  = e.touches[0].clientY;
+    advance(deltaY * 2); // touch más sensible que wheel
+  }, { passive: false, capture: true });
+
+  /* ── Teclas ──────────────────────────────────────────────── */
+  window.addEventListener('keydown', (e) => {
+    if (pageUnlocked) return;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault();
+      advance(80);
+    }
+    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      advance(-80);
     }
   });
 
-  /* ── Calcular progreso de scroll ──────────────────────────── */
-  function calcProgress(entry) {
-    const { scene } = entry;
-    const rect        = scene.getBoundingClientRect();
-    const sceneTop    = window.scrollY + rect.top;
-    const scrollRange = scene.offsetHeight - window.innerHeight;
-    if (scrollRange <= 0) return 0;
-    const scrolled = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
-    return scrolled / scrollRange;   // 0 → 1
-  }
-
-  /* ── RAF loop principal ────────────────────────────────────── */
-  const LERP = 0.15;  // suavidad del scrubbing (0.1=lento, 0.3=rápido)
-
+  /* ── RAF loop: lerp currentTime hacia targetTime ─────────── */
   function tick() {
-    entries.forEach((entry) => {
-      const { video, progressBar, hint } = entry;
-
-      // Esperar hasta tener duración válida
-      if (!entry.ready || entry.duration <= 0) return;
-
-      const progress = calcProgress(entry);
-      const targetTime = progress * entry.duration;
-      entry.targetTime = targetTime;
-
-      // Barra de progreso
-      if (progressBar) {
-        progressBar.style.width = (progress * 100).toFixed(1) + "%";
+    if (videoReady && !isSeeking) {
+      const diff = targetTime - currentTime;
+      if (Math.abs(diff) > 0.03) {
+        currentTime += diff * LERP_SPEED;
+        isSeeking = true;
+        try {
+          video.currentTime = currentTime;
+        } catch (_) {}
+        const onSeeked = () => {
+          isSeeking = false;
+          video.removeEventListener('seeked', onSeeked);
+        };
+        video.addEventListener('seeked', onSeeked, { once: true });
+        setTimeout(() => { isSeeking = false; }, 150);
       }
-
-      // Hint de scroll
-      if (hint) {
-        hint.style.opacity = progress > 0.03 ? "0" : "1";
-      }
-
-      // Lerp suave hacia el tiempo objetivo
-      if (!entry.seeking) {
-        const diff = targetTime - video.currentTime;
-        if (Math.abs(diff) > 0.05) {
-          try {
-            entry.seeking = true;
-            video.currentTime = video.currentTime + diff * LERP;
-            // Limpiar flag después de seek
-            const onSeeked = () => {
-              entry.seeking = false;
-              video.removeEventListener("seeked", onSeeked);
-            };
-            video.addEventListener("seeked", onSeeked, { once: true });
-            // Safety timeout
-            setTimeout(() => { entry.seeking = false; }, 200);
-          } catch (_) {
-            entry.seeking = false;
-          }
-        }
-      }
-    });
-
+    }
     requestAnimationFrame(tick);
   }
-
   requestAnimationFrame(tick);
+
+  /* ── UI: barra de progreso del video ─────────────────────── */
+  const progressFill = document.querySelector('.hero-scroll-progress-fill');
+  const progressBar  = document.querySelector('.hero-scroll-progress');
+
+  function updateUI() {
+    if (progressFill) progressFill.style.width = (progress * 100).toFixed(2) + '%';
+    if (progressBar)  progressBar.classList.toggle('is-visible', progress > 0.01);
+    requestAnimationFrame(updateUI);
+  }
+  requestAnimationFrame(updateUI);
 
 })();
 
+/* ── Decorative autoplay videos (non-hero) ───────────────────── */
 (function slowDownVideos() {
-  // Solo ralentiza videos que NO son scroll-scrubbed (decorativos con autoplay)
   const videos = document.querySelectorAll('.scroll-video-el:not([data-scroll-video])');
   videos.forEach(v => { v.playbackRate = 0.4; });
 })();
+
 

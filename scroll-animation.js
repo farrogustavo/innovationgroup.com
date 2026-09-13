@@ -155,116 +155,77 @@
   /* ----------------------------------------------------------------
      Hero scroll: maps hero scene scroll progress to visual effects
   ---------------------------------------------------------------- */
-  let currentVideoScale   = 0.88;
-  let currentVideoY       = 0;
-  let currentOverlayOp    = 0;
-  let currentH1Op         = 1;
-  let currentH1Y          = 0;
-  let currentH1Blur        = 0;
-  let currentEyebrowOp    = 1;
-  let currentEyebrowY     = 0;
-  let currentCopyOp       = 1;
-  let currentCopyY        = 0;
-  let currentCopyBlur     = 0;
-  let currentActionsOp    = 1;
-  let currentActionsY     = 0;
-  let currentCardOp       = 1;
-  let currentCardY        = 0;
-  let currentProgress     = 0;
-
-  const LERP_SPEED = 0.09; // cinematic lag — slower = more cinematic
-
+  /* Lee el progreso desde el controlador de wheel (script.js)
+     en vez de calcularlo desde scroll position */
   function getHeroProgress() {
-    if (!heroScene) return 0;
-    const rect = heroScene.getBoundingClientRect();
-    const sceneH = heroScene.offsetHeight;
-    const range = sceneH - window.innerHeight;
-    if (range <= 0) return 0;
-    const scrolled = Math.max(0, Math.min(range, -rect.top));
-    return scrolled / range;
+    return window.__heroProgress || 0;
   }
+
+  /* Estado lerpeado para las capas de texto del hero */
+  const hs = {
+    overlayOp:  0,
+    eyebrowOp:  1, eyebrowY: 0,
+    h1Op:       1, h1Y: 0, h1Blur: 0,
+    copyOp:     1, copyY: 0, copyBlur: 0,
+    actionsOp:  1, actionsY: 0,
+    cardOp:     1, cardY: 0,
+  };
+  const LS = 0.10; // LERP speed para el hero
 
   function updateHero(rawProgress) {
     if (!heroScene) return;
-
     const p = ease(rawProgress);
 
-    /* NOTE: heroVideo transform is NOT set here.
-       The scroll-scrub engine in script.js drives video.currentTime.
-       We only animate the content overlay layers. */
+    /* Overlay: oscurece mientras sale el hero */
+    const tOv = map(p, 0.35, 0.85, 0, 0.55);
+    hs.overlayOp = lerp(hs.overlayOp, tOv, LS * 0.7);
+    if (heroOverlay) heroOverlay.style.opacity = (1 + hs.overlayOp).toFixed(3);
 
-    /* Overlay: alpha increases as user exits hero */
-    const targetOverlayOp = map(p, 0.35, 0.85, 0, 0.55);
-    currentOverlayOp = lerp(currentOverlayOp, targetOverlayOp, LERP_SPEED * 0.7);
-    if (heroOverlay) {
-      heroOverlay.style.opacity = (1 + currentOverlayOp).toFixed(3);
-    }
-
-    /* Eyebrow: fades out early */
-    const targetEyebrowOp = map(p, 0.05, 0.22, 1, 0);
-    const targetEyebrowY  = map(p, 0.05, 0.22, 0, -28);
-    currentEyebrowOp = lerp(currentEyebrowOp, targetEyebrowOp, LERP_SPEED);
-    currentEyebrowY  = lerp(currentEyebrowY,  targetEyebrowY,  LERP_SPEED);
+    /* Eyebrow */
+    hs.eyebrowOp = lerp(hs.eyebrowOp, map(p, 0.05, 0.22, 1, 0), LS);
+    hs.eyebrowY  = lerp(hs.eyebrowY,  map(p, 0.05, 0.22, 0, -28), LS);
     if (heroEyebrow) {
-      heroEyebrow.style.opacity   = Math.max(0, currentEyebrowOp).toFixed(3);
-      heroEyebrow.style.transform = `translateY(${currentEyebrowY.toFixed(2)}px)`;
+      heroEyebrow.style.opacity   = Math.max(0, hs.eyebrowOp).toFixed(3);
+      heroEyebrow.style.transform = `translateY(${hs.eyebrowY.toFixed(2)}px)`;
     }
 
-    /* H1: fades + moves up + slight blur */
-    const targetH1Op   = map(p, 0.08, 0.38, 1, 0);
-    const targetH1Y    = map(p, 0.08, 0.38, 0, -52);
-    const targetH1Blur = map(p, 0.12, 0.38, 0, 8);
-    currentH1Op   = lerp(currentH1Op,   targetH1Op,   LERP_SPEED);
-    currentH1Y    = lerp(currentH1Y,    targetH1Y,    LERP_SPEED);
-    currentH1Blur = lerp(currentH1Blur, targetH1Blur, LERP_SPEED);
+    /* H1: sube + blur */
+    hs.h1Op   = lerp(hs.h1Op,   map(p, 0.08, 0.38, 1, 0),  LS);
+    hs.h1Y    = lerp(hs.h1Y,    map(p, 0.08, 0.38, 0, -52), LS);
+    hs.h1Blur = lerp(hs.h1Blur, map(p, 0.12, 0.38, 0, 8),   LS);
     if (heroH1) {
-      heroH1.style.opacity   = Math.max(0, currentH1Op).toFixed(3);
-      heroH1.style.transform = `translateY(${currentH1Y.toFixed(2)}px)`;
-      heroH1.style.filter    = currentH1Blur > 0.1 ? `blur(${currentH1Blur.toFixed(2)}px)` : '';
+      heroH1.style.opacity   = Math.max(0, hs.h1Op).toFixed(3);
+      heroH1.style.transform = `translateY(${hs.h1Y.toFixed(2)}px)`;
+      heroH1.style.filter    = hs.h1Blur > 0.1 ? `blur(${hs.h1Blur.toFixed(2)}px)` : '';
     }
 
-    /* Body copy: slightly delayed exit */
-    const targetCopyOp   = map(p, 0.15, 0.45, 1, 0);
-    const targetCopyY    = map(p, 0.15, 0.45, 0, -40);
-    const targetCopyBlur = map(p, 0.2,  0.45, 0, 10);
-    currentCopyOp   = lerp(currentCopyOp,   targetCopyOp,   LERP_SPEED);
-    currentCopyY    = lerp(currentCopyY,    targetCopyY,    LERP_SPEED);
-    currentCopyBlur = lerp(currentCopyBlur, targetCopyBlur, LERP_SPEED);
+    /* Copy: blur-fade */
+    hs.copyOp   = lerp(hs.copyOp,   map(p, 0.15, 0.45, 1, 0),  LS);
+    hs.copyY    = lerp(hs.copyY,    map(p, 0.15, 0.45, 0, -40), LS);
+    hs.copyBlur = lerp(hs.copyBlur, map(p, 0.2,  0.45, 0, 10),  LS);
     if (heroCopy) {
-      heroCopy.style.opacity   = Math.max(0, currentCopyOp).toFixed(3);
-      heroCopy.style.transform = `translateY(${currentCopyY.toFixed(2)}px)`;
-      heroCopy.style.filter    = currentCopyBlur > 0.1 ? `blur(${currentCopyBlur.toFixed(2)}px)` : '';
+      heroCopy.style.opacity   = Math.max(0, hs.copyOp).toFixed(3);
+      heroCopy.style.transform = `translateY(${hs.copyY.toFixed(2)}px)`;
+      heroCopy.style.filter    = hs.copyBlur > 0.1 ? `blur(${hs.copyBlur.toFixed(2)}px)` : '';
     }
 
-    /* Actions: last to exit */
-    const targetActionsOp = map(p, 0.22, 0.5, 1, 0);
-    const targetActionsY  = map(p, 0.22, 0.5, 0, -32);
-    currentActionsOp = lerp(currentActionsOp, targetActionsOp, LERP_SPEED);
-    currentActionsY  = lerp(currentActionsY,  targetActionsY,  LERP_SPEED);
+    /* Botones */
+    hs.actionsOp = lerp(hs.actionsOp, map(p, 0.22, 0.5, 1, 0),  LS);
+    hs.actionsY  = lerp(hs.actionsY,  map(p, 0.22, 0.5, 0, -32), LS);
     if (heroActions) {
-      heroActions.style.opacity   = Math.max(0, currentActionsOp).toFixed(3);
-      heroActions.style.transform = `translateY(${currentActionsY.toFixed(2)}px)`;
+      heroActions.style.opacity   = Math.max(0, hs.actionsOp).toFixed(3);
+      heroActions.style.transform = `translateY(${hs.actionsY.toFixed(2)}px)`;
     }
 
-    /* Hero info card: exits to the right */
-    const targetCardOp = map(p, 0.3, 0.55, 1, 0);
-    const targetCardY  = map(p, 0.3, 0.55, 0, 36);
-    currentCardOp = lerp(currentCardOp, targetCardOp, LERP_SPEED);
-    currentCardY  = lerp(currentCardY,  targetCardY,  LERP_SPEED);
+    /* Card */
+    hs.cardOp = lerp(hs.cardOp, map(p, 0.3, 0.55, 1, 0),  LS);
+    hs.cardY  = lerp(hs.cardY,  map(p, 0.3, 0.55, 0, 36),  LS);
     if (heroCard) {
-      heroCard.style.opacity   = Math.max(0, currentCardOp).toFixed(3);
-      heroCard.style.transform = `translateY(${currentCardY.toFixed(2)}px)`;
-    }
-
-    /* Progress bar */
-    currentProgress = lerp(currentProgress, rawProgress, 0.12);
-    if (progressBarFill) {
-      progressBarFill.style.width = (currentProgress * 100).toFixed(2) + '%';
-    }
-    if (progressBar) {
-      progressBar.classList.toggle('is-visible', rawProgress > 0.01);
+      heroCard.style.opacity   = Math.max(0, hs.cardOp).toFixed(3);
+      heroCard.style.transform = `translateY(${hs.cardY.toFixed(2)}px)`;
     }
   }
+
 
   /* ----------------------------------------------------------------
      Parallax on gallery images
@@ -290,32 +251,26 @@
   function updateScene2() {
     if (!scene2) return;
     const rect = scene2.getBoundingClientRect();
-    // When the section is fully in view, p = 1
     const enterP = clamp(map(rect.top, window.innerHeight * 0.8, window.innerHeight * 0.1, 0, 1), 0, 1);
     const exitP  = clamp(map(rect.bottom, window.innerHeight * 0.4, 0, 1, 0), 0, 1);
     const p      = Math.min(enterP, exitP);
 
-    const targetS2Scale   = map(p, 0, 0.6, 0.92, 1.0);
-    const targetS2Opacity = map(p, 0, 0.4, 0, 1);
-
-    s2Scale   = lerp(s2Scale,   targetS2Scale,   LERP_SPEED);
-    s2Opacity = lerp(s2Opacity, targetS2Opacity, LERP_SPEED);
+    s2Scale   = lerp(s2Scale,   map(p, 0, 0.6, 0.92, 1.0), 0.09);
+    s2Opacity = lerp(s2Opacity, map(p, 0, 0.4, 0, 1),      0.09);
 
     if (scene2Video) {
-      scene2Video.style.opacity  = s2Opacity.toFixed(3);
+      scene2Video.style.opacity   = s2Opacity.toFixed(3);
       scene2Video.style.transform = `scale(${s2Scale.toFixed(4)})`;
     }
 
-    // Content
-    const targetContentOp = map(p, 0.25, 0.7, 0, 1);
-    const targetContentY  = map(p, 0.25, 0.7, 40, 0);
-    s2ContentOp = lerp(s2ContentOp, targetContentOp, LERP_SPEED);
-    s2ContentY  = lerp(s2ContentY,  targetContentY,  LERP_SPEED);
+    s2ContentOp = lerp(s2ContentOp, map(p, 0.25, 0.7, 0, 1),  0.09);
+    s2ContentY  = lerp(s2ContentY,  map(p, 0.25, 0.7, 40, 0), 0.09);
     if (scene2Content) {
       scene2Content.style.opacity   = Math.max(0, s2ContentOp).toFixed(3);
       scene2Content.style.transform = `translateY(${s2ContentY.toFixed(2)}px)`;
     }
   }
+
 
   /* ----------------------------------------------------------------
      Main rAF loop
