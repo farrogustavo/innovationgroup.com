@@ -204,10 +204,10 @@ if (heroCarousel) {
   if (!scene || !video) return;
 
   /* ── Configuración ───────────────────────────────────────── */
-  const DURATION   = parseFloat(video.dataset.duration) || 88;
-  // 7000px de delta total = video completo  (más lento = más cinematográfico)
-  const SENSITIVITY = 1 / 7000;
-  const LERP_SPEED  = 0.10;
+  const DURATION    = parseFloat(video.dataset.duration) || 88;
+  // 15000px de delta total = video completo (velocidad cinematográfica)
+  const SENSITIVITY  = 1 / 15000;
+  const LERP_SPEED   = 0.10;
 
   /* ── Estado (mutable, se resetea al volver al top) ──────── */
   let progress     = 0;
@@ -241,15 +241,32 @@ if (heroCarousel) {
       nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // ── RESET cuando el usuario vuelve al top ─────────────────
-    // Si el usuario hace scroll de regreso al inicio, reiniciamos
-    // el controlador para que el video se vuelva a reproducir.
-    window.addEventListener('scroll', function onReturnToTop() {
-      if (window.scrollY < 50) {
-        window.removeEventListener('scroll', onReturnToTop);
+    /* ── RESET al volver al top: dos fases ────────────────────
+       FASE 1: esperar a que el usuario se aleje del top (scrollY > 200)
+               Necesario porque scrollY = 0 justo al desbloquear —
+               si escuchamos de inmediato, el listener dispara al instante.
+       FASE 2: una vez alejado, detectar el regreso (scrollY < 50)
+               y resetear el controlador.
+    ───────────────────────────────────────────────────────── */
+    let hasScrolledAway = false;
+
+    function onScrollWatch() {
+      const sy = window.scrollY;
+
+      if (!hasScrolledAway) {
+        // Fase 1: marcar cuando el usuario ya esté lejos del top
+        if (sy > 200) hasScrolledAway = true;
+        return;
+      }
+
+      // Fase 2: usuario volvió al top → reset
+      if (sy < 50) {
+        window.removeEventListener('scroll', onScrollWatch);
         resetController();
       }
-    }, { passive: true });
+    }
+
+    window.addEventListener('scroll', onScrollWatch, { passive: true });
   }
 
   /* ── Reset completo del controlador ─────────────────────── */
