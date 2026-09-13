@@ -188,10 +188,15 @@ if (heroCarousel) {
 
 
 /* ════════════════════════════════════════════════════════════
-   SCROLL-SCRUBBED VIDEO  (rewritten — robust version)
-   ─────────────────────────────────────────────────────────
-   Handles non-faststart MP4s (WhatsApp, phone recordings).
-   Uses multiple unlock strategies and a continuous RAF loop.
+   SCROLL-SCRUBBED VIDEO  —  versión robusta para MP4 no-faststart
+   ─────────────────────────────────────────────────────────────
+   Soluciona el problema de WhatsApp / videos grabados en celular
+   donde video.duration = Infinity hasta que descarga completo.
+   Estrategia:
+   1. Intenta play/pause para desbloquear seeking
+   2. Usa data-duration como fallback inmediato si está presente
+   3. Polling cada 400ms hasta que la duración sea finita
+   4. RAF loop continuo que scrubea el video con lerp suave
    ════════════════════════════════════════════════════════════ */
 (function initScrollVideos() {
 
@@ -208,101 +213,144 @@ if (heroCarousel) {
 
     if (!video) return;
 
-    video.muted       = true;
-    video.playsInline = true;
-    video.preload     = "auto";
+    // Forzar atributos críticos
+    video.muted        = true;
+    video.playsInline  = true;
+    video.preload      = "auto";
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
 
     const entry = {
-      scene, video, progressBar, hint,
-      targetTime : 0,
-      unlocked   : false,
+      scene,
+      video,
+      progressBar,
+      hint,
+      targetTime  : 0,
+      ready       : false,  // true cuando tenemos duración válida
+      duration    : 0,
+      seeking     : false,
     };
     entries.push(entry);
 
-    /* ── Multi-strategy unlock ───────────────────────────
-       WhatsApp / phone-recorded MP4s have the moov atom at
-       the END of the file (not faststart), so `canplay` may
-       never fire until the full file downloads.
-       We try several events + a timeout fallback.           */
-    const tryUnlock = () => {
-      if (entry.unlocked) return;
+    /* ── Paso 1: obtener duración ─────────────────────────────
+       Si data-duration está en el HTML, úsalo de inmediato.
+       Si no, espera a que video.duration sea finito.         */
+    if (video.hasAttribute("data-duration")) {
+      entry.duration = parseFloat(video.dataset.duration);
+      if (entry.duration > 0) entry.ready = true;
+    }
+
+    /* ── Paso 2: desbloquear seeking ─────────────────────────
+       Los navegadores bloquean seeking hasta que se reproduce
+       al menos un frame. play()+pause() desbloquea el seeking. */
+    function tryUnlock() {
       const p = video.play();
-      const done = () => {
-        video.pause();
-        video.currentTime = 0;
-        entry.unlocked = true;
-      };
       if (p && p.then) {
-        p.then(done).catch(() => {
-          // play() blocked (autoplay policy) — still mark ready
-          // so direct seeking can be attempted
-          entry.unlocked = true;
+        p.then(() => {
+          video.pause();
+          video.currentTime = 0;
+        }).catch(() => {
+          // Autoplay bloqueado — igual intentamos seeking directo
         });
       } else {
-        done();
+        video.pause();
+        video.currentTime = 0;
       }
-    };
+    }
 
-    // Fire on whichever event comes first
-    ["loadedmetadata", "loadeddata", "canplay", "canplaythrough"].forEach((ev) => {
+    // Disparar unlock cuando hay metadata
+    ["loadedmetadata", "loadeddata", "canplay"].forEach((ev) => {
       video.addEventListener(ev, tryUnlock, { once: true });
     });
-
-    // If already has metadata, unlock immediately
     if (video.readyState >= 1) tryUnlock();
 
-    // Timeout fallback: after 2.5 s force-unlock (handles slow connections)
-    setTimeout(() => { if (!entry.unlocked) entry.unlocked = true; }, 2500);
+    /* ── Paso 3: polling de duración ─────────────────────────
+       Para MP4 no-faststart (WhatsApp, grabaciones de celular)
+       video.duration = Infinity hasta que descarga completo.
+       Revisamos cada 500ms hasta que sea un número finito.  */
+    if (!entry.ready) {
+      const durationPoller = setInterval(() => {
+        const d = video.duration;
+        if (isFinite(d) && d > 0) {
+          entry.duration = d;
+          entry.ready    = true;
+          clearInterval(durationPoller);
+        }
+      }, 500);
+
+      // Fallback final: después de 10s asumimos la duración por archivo
+      // (el video sigue descargando en background pero podemos scrubear
+      //  la parte ya descargada)
+      setTimeout(() => {
+        if (!entry.ready) {
+          // Intentar una última vez con el valor actual
+          const d = video.duration;
+          entry.duration = (isFinite(d) && d > 0) ? d : 60; // 60s fallback
+          entry.ready    = true;
+          clearInterval(durationPoller);
+        }
+      }, 10000);
+    }
   });
 
-  /* ── Calculate scrub position for one entry ───────────── */
+  /* ── Calcular progreso de scroll ──────────────────────────── */
   function calcProgress(entry) {
     const { scene } = entry;
-    const rect       = scene.getBoundingClientRect();
-    const sceneTop   = window.scrollY + rect.top;
+    const rect        = scene.getBoundingClientRect();
+    const sceneTop    = window.scrollY + rect.top;
     const scrollRange = scene.offsetHeight - window.innerHeight;
     if (scrollRange <= 0) return 0;
     const scrolled = Math.max(0, Math.min(scrollRange, window.scrollY - sceneTop));
-    return scrolled / scrollRange;                            // 0 → 1
+    return scrolled / scrollRange;   // 0 → 1
   }
 
-  /* ── Continuous RAF loop ───────────────────────────────── */
-  const LERP = 0.18;   // 0.18 = snappy but smooth; 1.0 = instant
+  /* ── RAF loop principal ────────────────────────────────────── */
+  const LERP = 0.15;  // suavidad del scrubbing (0.1=lento, 0.3=rápido)
 
   function tick() {
     entries.forEach((entry) => {
       const { video, progressBar, hint } = entry;
-      if (!entry.unlocked) return;
 
-      // Resolve effective duration
-      const dur = video.hasAttribute("data-duration")
-        ? parseFloat(video.dataset.duration)
-        : (isFinite(video.duration) && video.duration > 0 ? video.duration : 0);
-      if (dur <= 0) return;
+      // Esperar hasta tener duración válida
+      if (!entry.ready || entry.duration <= 0) return;
 
       const progress = calcProgress(entry);
-      entry.targetTime = progress * dur;
+      const targetTime = progress * entry.duration;
+      entry.targetTime = targetTime;
 
-      // Progress bar
+      // Barra de progreso
       if (progressBar) {
         progressBar.style.width = (progress * 100).toFixed(1) + "%";
       }
 
-      // Hint fade
+      // Hint de scroll
       if (hint) {
         hint.style.opacity = progress > 0.03 ? "0" : "1";
       }
 
-      // Lerp currentTime → targetTime
-      const diff = entry.targetTime - video.currentTime;
-      if (Math.abs(diff) > 0.04) {
-        try { video.currentTime += diff * LERP; } catch (_) {/* ignore */}
-      } else if (Math.abs(diff) > 0.005) {
-        try { video.currentTime = entry.targetTime; } catch (_) {/* ignore */}
+      // Lerp suave hacia el tiempo objetivo
+      if (!entry.seeking) {
+        const diff = targetTime - video.currentTime;
+        if (Math.abs(diff) > 0.05) {
+          try {
+            entry.seeking = true;
+            video.currentTime = video.currentTime + diff * LERP;
+            // Limpiar flag después de seek
+            const onSeeked = () => {
+              entry.seeking = false;
+              video.removeEventListener("seeked", onSeeked);
+            };
+            video.addEventListener("seeked", onSeeked, { once: true });
+            // Safety timeout
+            setTimeout(() => { entry.seeking = false; }, 200);
+          } catch (_) {
+            entry.seeking = false;
+          }
+        }
       }
     });
 
-    requestAnimationFrame(tick);   // always keep running
+    requestAnimationFrame(tick);
   }
 
   requestAnimationFrame(tick);
@@ -310,7 +358,8 @@ if (heroCarousel) {
 })();
 
 (function slowDownVideos() {
-  // Only slow down videos that are NOT scroll-scrubbed (autoplay decorative ones)
+  // Solo ralentiza videos que NO son scroll-scrubbed (decorativos con autoplay)
   const videos = document.querySelectorAll('.scroll-video-el:not([data-scroll-video])');
   videos.forEach(v => { v.playbackRate = 0.4; });
 })();
+
