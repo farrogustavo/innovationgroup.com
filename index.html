@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="premium-about.css">
     <link rel="stylesheet" href="about-styles.css">
+    <link rel="stylesheet" href="scroll-animation.css">
   <style>
         @font-face {
             font-family: 'NotoSans_online_security'; 
@@ -61,19 +62,21 @@
     </header>
 
     <main>
-      <!-- HERO: hero-video.mp4 — autoplay -->
+      <!-- HERO: cinematic scroll-driven scene -->
       <div class="scroll-video-scene" id="home">
         <div class="scroll-video-sticky">
           <video
             class="scroll-video-el"
-            src="hero-video.mp4"
             autoplay
             loop
             muted
             playsinline
             preload="auto"
             aria-hidden="true"
-          ></video>
+          >
+            <source src="WhatsApp Video 2026-09-13 at 1.23.03 PM.mp4" type="video/mp4">
+            <source src="hero-video.mp4" type="video/mp4">
+          </video>
           <div class="scroll-video-overlay"></div>
           <div class="hero-content scroll-video-content">
             <p class="eyebrow">Electrical contractor + construction project partner</p>
@@ -563,6 +566,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="scroll-animation.js"></script>
   
 
 </body></html>

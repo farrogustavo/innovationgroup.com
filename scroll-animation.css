@@ -1,0 +1,226 @@
+/* SCROLL-DRIVEN CINEMATIC ANIMATION  scroll-animation.css
+   All scroll-interpolated properties are controlled via JS.
+   CSS only defines structure, initial states, and non-scroll fx. */
+
+/* Hero video: will-change + initial scale for zoom-in effect */
+.scroll-video-scene:first-of-type .scroll-video-el {
+  transform-origin: center center;
+  will-change: transform, filter;
+  transform: scale(0.88) translateY(0px);
+}
+
+.scroll-video-scene:first-of-type .scroll-video-content {
+  will-change: opacity, transform;
+}
+
+.scroll-video-scene:first-of-type .scroll-video-content h1 {
+  will-change: opacity, transform, filter;
+}
+
+.scroll-video-scene:first-of-type .scroll-video-content .eyebrow {
+  will-change: opacity, transform;
+}
+
+.scroll-video-scene:first-of-type .scroll-video-content .hero-copy {
+  will-change: opacity, transform, filter;
+}
+
+.scroll-video-scene:first-of-type .scroll-video-content .hero-actions {
+  will-change: opacity, transform;
+}
+
+.scroll-video-scene:first-of-type .hero-card {
+  will-change: opacity, transform;
+}
+
+.scroll-video-scene:first-of-type .scroll-video-overlay {
+  will-change: opacity;
+}
+
+/* Scene crossfade overlay */
+.scene-crossfade {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  transition: opacity 0.05s linear;
+  will-change: opacity;
+}
+
+/* Scroll-entry depth animation */
+[data-scroll-entry] {
+  opacity: 0;
+  transform: scale(0.88) translateY(48px);
+  will-change: opacity, transform;
+}
+
+[data-scroll-entry].is-entered {
+  opacity: 1;
+  transform: scale(1) translateY(0px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Scale 80 to 100% on scroll */
+[data-scroll-scale] {
+  transform: scale(0.80);
+  will-change: transform;
+}
+
+/* Text slide-in from left */
+[data-scroll-text] {
+  opacity: 0;
+  transform: translateX(-32px);
+  will-change: opacity, transform;
+}
+
+[data-scroll-text].is-visible {
+  opacity: 1;
+  transform: translateX(0px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Secondary text blur-fade-in */
+[data-scroll-secondary] {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(6px);
+  will-change: opacity, transform, filter;
+}
+
+[data-scroll-secondary].is-visible {
+  opacity: 1;
+  transform: translateY(0px);
+  filter: blur(0px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.16,1,0.3,1), filter 0.9s ease;
+}
+
+/* Parallax image container */
+[data-parallax-img] img,
+[data-parallax-img] video {
+  will-change: transform;
+}
+
+/* Second video scene */
+#featured-projects .scroll-video-el {
+  will-change: transform, opacity;
+}
+
+#featured-projects .scroll-video-content {
+  will-change: opacity, transform;
+}
+
+/* Service card depth entry */
+.service-card[data-depth-enter] {
+  opacity: 0;
+  transform: scale(0.82) translateY(56px);
+  will-change: opacity, transform;
+}
+
+/* Background morph */
+[data-bg-morph] {
+  will-change: background-color;
+}
+
+/* Hero scroll progress bar (fixed, global) */
+.hero-scroll-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  pointer-events: none;
+  background: rgba(255,255,255,0.08);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-scroll-progress.is-visible {
+  opacity: 1;
+}
+
+.hero-scroll-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f36b21, #ffb33c);
+  will-change: width;
+}
+
+/* Film grain overlay */
+.cinematic-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: grain-shift 0.14s steps(1) infinite;
+}
+
+@keyframes grain-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -28px 14px; }
+  50%  { background-position: 14px -22px; }
+  75%  { background-position: -18px -8px; }
+  100% { background-position: 8px 28px; }
+}
+
+/* Cinematic vignette */
+.cinematic-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 90% at 50% 50%,
+    transparent 42%,
+    rgba(0,0,0,0.18) 65%,
+    rgba(0,0,0,0.52) 100%
+  );
+  will-change: opacity;
+}
+
+/* Hero card entrance */
+.scroll-video-sticky .hero-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s;
+}
+
+.scroll-video-sticky .hero-card.is-loaded {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* Staggered section children */
+.cinematic-enter-wrap > * {
+  opacity: 0;
+  transform: translateY(36px) scale(0.96);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.cinematic-enter-wrap.is-triggered > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+.cinematic-enter-wrap.is-triggered > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.12s; }
+.cinematic-enter-wrap.is-triggered > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.24s; }
+.cinematic-enter-wrap.is-triggered > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.36s; }
+.cinematic-enter-wrap.is-triggered > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.48s; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-entry],
+  [data-scroll-scale],
+  [data-scroll-text],
+  [data-scroll-secondary],
+  .scroll-video-scene:first-of-type .scroll-video-el,
+  .cinematic-grain {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
